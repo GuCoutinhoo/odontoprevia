@@ -73,6 +73,9 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   );
 }
 
+const LUMIERE_FAVICON_DATA_URI =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='lumiereGold' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23ECC87E'/%3E%3Cstop offset='45%25' stop-color='%23C5A059'/%3E%3Cstop offset='100%25' stop-color='%239E732B'/%3E%3C/linearGradient%3E%3Cfilter id='shadow' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeDropShadow dx='0' dy='0.8' stdDeviation='0.8' flood-color='%23000000' flood-opacity='0.3'/%3E%3C/filter%3E%3C/defs%3E%3Cg transform='translate(0, 6)' filter='url(%23shadow)' stroke='url(%23lumiereGold)' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 26C20 18 20 10 20 2C24 8 24 18 20 2'/%3E%3Cpath d='M20 26C15 22 10 16 9 8C15 11 19 18 20 26'/%3E%3Cpath d='M20 26C25 22 30 16 31 8C25 11 21 18 20 26'/%3E%3Cpath d='M20 26C13 25 6 21 2 15C9 15 16 20 20 26'/%3E%3Cpath d='M20 26C27 25 34 21 38 15C31 15 24 20 20 26'/%3E%3C/g%3E%3C/svg%3E";
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
@@ -101,9 +104,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Montserrat:wght@400;500;600&display=swap",
       },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "icon", href: "/favicon.ico", sizes: "any" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "icon", href: LUMIERE_FAVICON_DATA_URI, type: "image/svg+xml" },
+      { rel: "shortcut icon", href: LUMIERE_FAVICON_DATA_URI },
+      { rel: "alternate icon", href: "/favicon.svg?v=3", type: "image/svg+xml" },
+      { rel: "alternate icon", href: "/favicon-32x32.png?v=3", type: "image/png" },
+      { rel: "alternate icon", href: "/favicon.ico?v=3" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=3" },
     ],
   }),
   shellComponent: RootShell,
@@ -128,6 +134,16 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    // Invalidate browser tab favicon cache immediately
+    const links = document.querySelectorAll<HTMLLinkElement>(
+      "link[rel*='icon'], link[rel='shortcut icon']",
+    );
+    links.forEach((link) => {
+      link.href = LUMIERE_FAVICON_DATA_URI;
+    });
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
