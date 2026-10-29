@@ -21,19 +21,27 @@ interface AppointmentModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   initialTreatment?: string;
+  defaultTreatment?: string;
 }
 
 export function AppointmentModal({
   open,
   onOpenChange,
   initialTreatment = "Avaliação Completa",
+  defaultTreatment,
 }: AppointmentModalProps) {
-  const [treatment, setTreatment] = useState(initialTreatment);
+  const chosenTreatment = defaultTreatment || initialTreatment;
+  const [treatment, setTreatment] = useState(chosenTreatment);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [preferredShift, setPreferredShift] = useState("Manhã (08h - 12h)");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Sync treatment when prop changes
+  useState(() => {
+    if (chosenTreatment) setTreatment(chosenTreatment);
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -195,7 +203,7 @@ export function AppointmentModal({
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Endereço:</span>
-                <span className="font-medium">Av. Paulista, 1000 - Bela Vista, SP</span>
+                <span className="font-medium">Rua Afonso Braz, 850 — Vila Nova Conceição, SP</span>
               </div>
             </div>
             <button
