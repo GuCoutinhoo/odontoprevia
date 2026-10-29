@@ -198,20 +198,19 @@ export function BeforeAfterSlider({
         </span>
       </div>
 
-      {/* Linha Divisória e Alça Central Arrastável */}
+      {/* Linha Divisória e Alça Central Arrastável Otimizada para Toque */}
       <div
         className="absolute top-0 bottom-0 z-20 w-0.5 bg-white shadow-[0_0_12px_rgba(0,0,0,0.4)] pointer-events-none"
         style={{ left: `${sliderPos}%` }}
       >
         <div
-          className={`absolute top-1/2 left-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#3B2920] text-white shadow-lg border-2 border-white transition-transform duration-150 ${
+          className={`absolute top-1/2 left-1/2 flex h-10 w-10 sm:h-9 sm:w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#3B2920] text-white shadow-lg border-2 border-white transition-transform duration-150 active:scale-110 ${
             isDragging ? "scale-115 shadow-xl bg-[#281B14]" : "group-hover:scale-105"
           }`}
           style={{ cursor: "ew-resize" }}
+          aria-hidden="true"
         >
-          <span className="text-[11px] font-bold tracking-tighter select-none font-mono">
-            &lt;&nbsp;&gt;
-          </span>
+          <MoveHorizontal className="h-4 w-4 text-[#ECC87E]" />
         </div>
       </div>
 

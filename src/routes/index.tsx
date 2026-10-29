@@ -15,6 +15,7 @@ import { CtaFooterSection } from "@/components/cta-footer-section";
 import { AppointmentModal } from "@/components/appointment-modal";
 import { TreatmentModal, type TreatmentInfo } from "@/components/treatment-modal";
 import { ScrollToTop } from "@/components/scroll-to-top";
+import { MobileQuickBar } from "@/components/mobile-quick-bar";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export const Route = createFileRoute("/")({
@@ -67,6 +68,7 @@ function Logo({ small = false }: { small?: boolean }) {
 
 function Index() {
   const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("início");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [appointmentModalOpen, setAppointmentModalOpen] = useState(false);
@@ -74,7 +76,7 @@ function Index() {
   const [treatmentModalOpen, setTreatmentModalOpen] = useState(false);
   const [activeTreatment, setActiveTreatment] = useState<TreatmentInfo | null>(null);
 
-  // Monitora a rolagem para estilizar o cabeçalho fixo e rastrear a seção ativa
+  // Monitora a rolagem para estilizar o cabeçalho fixo, controlar a barra rápida mobile e rastrear a seção ativa
   useEffect(() => {
     const sectionIds = [
       "início",
@@ -89,8 +91,13 @@ function Index() {
     ];
 
     const handleScroll = () => {
-      // Ativa o estado sólido com rolagem entre 50-80px (60px)
+      // Ativa o estado sólido do cabeçalho com rolagem > 60px
       setScrolled(window.scrollY > 60);
+
+      // A barra rápida inferior fixa no mobile só aparece APÓS o visitante passar do hero
+      const heroElement = document.getElementById("início");
+      const heroHeight = heroElement ? heroElement.offsetHeight : 600;
+      setPastHero(window.scrollY > heroHeight * 0.75);
 
       if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80) {
         setActiveSection("contato");
@@ -146,13 +153,13 @@ function Index() {
   ];
 
   return (
-    <div className="bg-[#FAF8F5] text-[#1E1B18] antialiased selection:bg-[#EBDDC8] selection:text-[#2E241B]">
-      {/* Cabeçalho Fixo Global: Transparente no topo, sólido bege-quente ao rolar, SEM linha divisória */}
+    <div className="bg-[#FAF8F5] text-[#1E1B18] antialiased selection:bg-[#EBDDC8] selection:text-[#2E241B] min-h-screen overflow-x-clip">
+      {/* Cabeçalho Fixo Global */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 border-none transition-[background-color,box-shadow,backdrop-filter] duration-400 ease-in-out motion-reduce:transition-none ${
           scrolled || mobileMenuOpen
             ? "bg-[#F7F2EA]/95 py-3.5 sm:py-4 shadow-[0_4px_20px_rgba(72,51,35,0.05)] backdrop-blur-md"
-            : "bg-gradient-to-b from-[#FAF7F2]/80 via-[#FAF7F2]/40 to-transparent py-3.5 sm:py-4 shadow-none backdrop-blur-none"
+            : "bg-[#FAF7F2]/90 lg:bg-gradient-to-b lg:from-[#FAF7F2]/80 lg:via-[#FAF7F2]/40 lg:to-transparent py-3.5 sm:py-4 shadow-none backdrop-blur-sm"
         }`}
       >
         <div className="site-container flex items-center justify-between">
@@ -190,14 +197,15 @@ function Index() {
               <ArrowUpRight className="h-4 w-4 text-[#D8C4B0] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
 
-            {/* Menu Mobile */}
+            {/* Menu Mobile com área de toque mínima de 44x44px */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-[#DCD3C7] bg-white/80 backdrop-blur-xs text-[#1E1B18] transition-colors lg:hidden hover:bg-[#F2EDE5]"
-              aria-label="Abrir menu de navegação"
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#DCD3C7] bg-white/90 backdrop-blur-xs text-[#1E1B18] transition-colors lg:hidden hover:bg-[#F2EDE5] active:scale-95 cursor-pointer"
+              aria-label={mobileMenuOpen ? "Fechar menu de navegação" : "Abrir menu de navegação"}
+              aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
@@ -205,10 +213,10 @@ function Index() {
         {/* Gaveta de Navegação Mobile com Fundo Sólido e sem borda divisória */}
         <div
           className={`overflow-hidden border-none bg-[#FAF7F2] transition-all duration-300 lg:hidden ${
-            mobileMenuOpen ? "max-h-96 opacity-100 py-4 shadow-md" : "max-h-0 opacity-0 py-0"
+            mobileMenuOpen ? "max-h-[460px] opacity-100 py-4 shadow-md" : "max-h-0 opacity-0 py-0"
           }`}
         >
-          <div className="site-container flex flex-col space-y-2 text-xs font-medium">
+          <div className="site-container flex flex-col space-y-1 text-xs font-medium">
             {navItems.map((item) => {
               const isActive = activeSection === item.id;
               return (
@@ -219,7 +227,7 @@ function Index() {
                     setActiveSection(item.id);
                     setMobileMenuOpen(false);
                   }}
-                  className={`rounded-xl px-4 py-2.5 transition-colors ${
+                  className={`rounded-xl px-4 py-2.5 transition-colors min-h-[44px] flex items-center ${
                     isActive
                       ? "bg-[#F2EDE5] text-[#966D38] font-semibold"
                       : "text-[#5A5248] hover:bg-[#F2EDE5] hover:text-[#1E1B18]"
@@ -229,14 +237,14 @@ function Index() {
                 </a>
               );
             })}
-            <div className="pt-2">
+            <div className="pt-2 flex flex-col gap-2">
               <button
                 type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   handleOpenAppointment("Agendamento pelo Topo Mobile");
                 }}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#483323] py-3 text-xs font-medium text-white shadow-sm transition active:scale-95"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#2C2018] py-3 text-xs font-medium text-white shadow-sm transition active:scale-95 min-h-[44px]"
               >
                 <span>Agendar avaliação</span>
                 <ArrowUpRight className="h-4 w-4" />
@@ -322,6 +330,9 @@ function Index() {
       />
 
       <ScrollToTop />
+
+      {/* Barra Rápida de Ações Mobile (Aparece após rolar além do Hero) */}
+      <MobileQuickBar onOpenAppointment={handleOpenAppointment} visible={pastHero} />
     </div>
   );
 }

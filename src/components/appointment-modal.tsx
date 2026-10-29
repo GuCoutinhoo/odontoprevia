@@ -756,12 +756,10 @@ ${notes ? `• Observação: ${notes}` : ""}`;
                   type="button"
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#966D38] hover:bg-[#7D5829] px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 disabled:opacity-60 cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-xl bg-[#966D38] hover:bg-[#7D5829] px-4 sm:px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 disabled:opacity-60 cursor-pointer"
                 >
                   <Calendar className="h-4 w-4" />
-                  <span>
-                    {isSubmitting ? "Processando..." : "Confirmar Solicitação de Avaliação"}
-                  </span>
+                  <span>{isSubmitting ? "Processando..." : "Confirmar Solicitação"}</span>
                 </button>
               )}
             </div>

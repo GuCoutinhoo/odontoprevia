@@ -152,9 +152,13 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   body {
     font-family: var(--font-sans);
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
   }
   h1,
   h2,
@@ -255,6 +259,15 @@
   background: linear-gradient(135deg, #7a5328 0%, #b88b4a 50%, #7a5328 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* Utilitário para ocultar barra de rolagem em carrosséis horizontais móveis */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
