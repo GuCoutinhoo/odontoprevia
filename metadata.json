@@ -1,0 +1,6 @@
+{
+  "name": "Lumière Odontologia",
+  "description": "Odontologia de alto padrão com tecnologia avançada, atendimento personalizado e resultados que vão além da estética.",
+  "permissions": [],
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
