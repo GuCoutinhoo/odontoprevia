@@ -139,8 +139,8 @@ export function TreatmentsSection({
           </div>
         </div>
 
-        {/* Grade de Cards de Tratamentos: 4 por Fileira em Desktop, Rente aos Textos */}
-        <div className="mt-5 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-3.5 transition-all duration-500">
+        {/* Grade de Cards de Tratamentos: Compactos e Proporcionais, Mantendo Todos os Elementos */}
+        <div className="mt-5 sm:mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4 lg:gap-4.5 max-w-[1140px] mx-auto transition-all duration-500">
           {filteredTreatments.map((treatment, idx) => {
             const imgSrc = IMAGE_MAP[treatment.imageKey];
             const isFeatured =
@@ -150,23 +150,23 @@ export function TreatmentsSection({
               <article
                 key={treatment.id}
                 style={{
-                  transitionDelay: `${idx * 35}ms`,
+                  transitionDelay: `${idx * 40}ms`,
                 }}
-                className={`group flex flex-col overflow-hidden rounded-xl border bg-white shadow-[0_2px_8px_rgba(72,51,35,0.04)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#C5A059] hover:shadow-[0_8px_20px_rgba(72,51,35,0.07)] ${
+                className={`group flex flex-col justify-between overflow-hidden rounded-xl border bg-white shadow-[0_2px_10px_rgba(72,51,35,0.04)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#C5A059] hover:shadow-[0_10px_24px_rgba(72,51,35,0.07)] ${
                   isFeatured ? "border-[#C5A059]/80 ring-1 ring-[#C5A059]/30" : "border-[#E8DFD3]"
                 } ${isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"}`}
               >
-                {/* Imagem do Tratamento com Altura Compacta (h-28 sm:h-32) */}
+                {/* Imagem do Tratamento com Altura Reduzida e Controlada (h-32 sm:h-36) */}
                 <div
                   onClick={() => handleSelectTreatment(treatment)}
-                  className="relative h-28 sm:h-32 w-full overflow-hidden bg-[#F3EFEA] cursor-pointer"
+                  className="relative h-32 sm:h-36 w-full overflow-hidden bg-[#F3EFEA] cursor-pointer"
                 >
                   <img
                     src={imgSrc}
                     alt={treatment.t}
                     loading="lazy"
-                    width={560}
-                    height={320}
+                    width={640}
+                    height={360}
                     className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   />
 
@@ -175,68 +175,70 @@ export function TreatmentsSection({
 
                   {/* Etiqueta de Categoria Superior Esquerda */}
                   <div className="absolute top-2 left-2 pointer-events-none">
-                    <span className="inline-block rounded-md bg-white/95 backdrop-blur-md px-2 py-0.5 text-[9.5px] font-semibold text-[#483A2E] shadow-2xs border border-black/5">
+                    <span className="inline-block rounded-md bg-white/95 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-[#483A2E] shadow-2xs border border-black/5">
                       {treatment.category}
                     </span>
                   </div>
 
                   {/* Selo Tecnológico Superior Direito */}
                   <div className="absolute top-2 right-2 pointer-events-none">
-                    <span className="inline-flex items-center gap-1 rounded-md bg-[#2D241F]/85 backdrop-blur-md px-2 py-0.5 text-[8.5px] font-medium text-white shadow-2xs">
+                    <span className="inline-flex items-center gap-1 rounded-md bg-[#2D241F]/85 backdrop-blur-md px-2 py-0.5 text-[9px] font-medium text-white shadow-2xs">
                       <Sparkles className="h-2 w-2 text-[#ECC87E]" />
                       {treatment.sessions}
                     </span>
                   </div>
                 </div>
 
-                {/* Conteúdo do Card Rente aos Textos (Sem Espaço Vazio Sobrando) */}
-                <div className="flex flex-col p-3 sm:p-3.5 bg-white">
-                  {/* Título do Procedimento */}
-                  <h3
-                    onClick={() => handleSelectTreatment(treatment)}
-                    className="font-serif text-sm sm:text-[15px] font-normal leading-snug text-[#1E1B18] transition-colors duration-200 group-hover:text-[#483323] cursor-pointer"
-                  >
-                    {treatment.t}
-                  </h3>
+                {/* Conteúdo do Card Mais Compacto Mantendo Todos os Elementos */}
+                <div className="flex flex-1 flex-col justify-between p-3.5 sm:p-4 bg-white">
+                  <div>
+                    {/* Título do Procedimento */}
+                    <h3
+                      onClick={() => handleSelectTreatment(treatment)}
+                      className="font-serif text-base sm:text-[17px] font-normal leading-snug text-[#1E1B18] transition-colors duration-200 group-hover:text-[#483323] cursor-pointer"
+                    >
+                      {treatment.t}
+                    </h3>
 
-                  {/* Descrição Explicativa Detalhada */}
-                  <p className="mt-1 text-[11px] text-[#5C554C] leading-snug line-clamp-2">
-                    {treatment.longDesc}
-                  </p>
+                    {/* Descrição Explicativa Detalhada */}
+                    <p className="mt-1 text-[11.5px] text-[#5C554C] leading-relaxed line-clamp-2">
+                      {treatment.longDesc}
+                    </p>
 
-                  {/* Todos os 3 Diferenciais Clínicos Rente ao Texto */}
-                  <div className="mt-2 pt-1.5 border-t border-[#F2ECE3] space-y-0.5">
-                    {treatment.benefits.slice(0, 3).map((benefit) => (
-                      <div
-                        key={benefit}
-                        className="flex items-center gap-1.5 text-[10.5px] text-[#483A2E] leading-tight"
-                      >
-                        <span className="flex h-3 w-3 shrink-0 items-center justify-center rounded-full bg-[#F3EDE5] text-[#966D38] font-bold text-[8px]">
-                          <Check className="h-2 w-2" />
-                        </span>
-                        <span className="truncate">{benefit}</span>
-                      </div>
-                    ))}
+                    {/* Todos os 3 Diferenciais Clínicos com Espaçamento Compacto */}
+                    <div className="mt-2.5 pt-2 border-t border-[#F2ECE3] space-y-1">
+                      {treatment.benefits.slice(0, 3).map((benefit) => (
+                        <div
+                          key={benefit}
+                          className="flex items-center gap-1.5 text-[11px] text-[#483A2E]"
+                        >
+                          <span className="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-[#F3EDE5] text-[#966D38] font-bold text-[8.5px]">
+                            <Check className="h-2 w-2" />
+                          </span>
+                          <span className="truncate leading-tight">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Rodapé do Card Rente aos Diferenciais */}
-                  <div className="mt-2 flex items-center justify-between border-t border-[#F2ECE3] pt-1.5">
+                  {/* Rodapé do Card com Duração e Gatilhos */}
+                  <div className="mt-2.5 flex items-center justify-between border-t border-[#F2ECE3] pt-2">
                     <div className="flex flex-col">
-                      <span className="text-[8.5px] font-semibold uppercase tracking-wider text-[#9E8B7A] flex items-center gap-0.5">
+                      <span className="text-[9px] font-semibold uppercase tracking-wider text-[#9E8B7A] flex items-center gap-1">
                         <Clock className="h-2.5 w-2.5" />
-                        Tempo
+                        Tempo estimado
                       </span>
-                      <span className="text-[10.5px] font-semibold text-[#3A322A]">
+                      <span className="text-[11px] font-semibold text-[#3A322A]">
                         {treatment.duration}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-2">
                       <button
                         type="button"
                         onClick={() => handleSelectTreatment(treatment)}
                         aria-label={`Saiba mais sobre ${treatment.t}`}
-                        className="group/link inline-flex items-center gap-0.5 text-[10.5px] font-semibold text-[#9E6D38] transition-colors duration-200 hover:text-[#765123] cursor-pointer"
+                        className="group/link inline-flex items-center gap-1 text-[11px] font-semibold text-[#9E6D38] transition-colors duration-200 hover:text-[#765123] cursor-pointer"
                       >
                         <span className="underline underline-offset-2 decoration-[#9E6D38]/40 hover:decoration-[#765123]">
                           Saiba mais
@@ -247,7 +249,7 @@ export function TreatmentsSection({
                         type="button"
                         onClick={() => handleSelectTreatment(treatment)}
                         aria-label={`Ver detalhes de ${treatment.t}`}
-                        className={`flex h-6.5 w-6.5 items-center justify-center rounded-full transition-all duration-300 cursor-pointer active:scale-95 ${
+                        className={`flex h-7 w-7 items-center justify-center rounded-full transition-all duration-300 cursor-pointer active:scale-95 ${
                           isFeatured
                             ? "bg-[#483323] text-white shadow-2xs group-hover:bg-[#342417] group-hover:scale-105"
                             : "border border-[#D4C8BC] text-[#483323] hover:bg-[#483323] hover:border-[#483323] hover:text-white group-hover:scale-105"

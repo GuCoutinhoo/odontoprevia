@@ -1,4 +1,13 @@
-import { ArrowUpRight, ArrowRight, ShieldCheck, Sparkles, Star, Clock } from "lucide-react";
+import { useState } from "react";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Clock,
+  Calendar,
+} from "lucide-react";
 import heroImg from "@/assets/hero.png";
 
 interface HeroSectionProps {
@@ -7,33 +16,41 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ onOpenAppointment, isVisible = true }: HeroSectionProps) {
+  const [quickTreatment, setQuickTreatment] = useState("Lentes de Contato Dental");
+  const [quickPeriod, setQuickPeriod] = useState("Manhã");
+
+  const handleQuickSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onOpenAppointment(`${quickTreatment} (${quickPeriod})`);
+  };
+
   return (
     <section
       id="início"
-      className="relative min-h-[640px] sm:min-h-[700px] lg:min-h-[88vh] w-full flex items-center overflow-hidden bg-[#FAF8F5] pt-24 pb-14 sm:pt-28 sm:pb-16 lg:py-24"
+      className="relative min-h-[640px] sm:min-h-[720px] lg:min-h-[88vh] w-full flex items-center overflow-hidden bg-[#FAF8F5] pt-24 pb-14 sm:pt-28 sm:pb-16 lg:py-28"
       aria-label="Início - Lumière Odontologia de Alto Padrão"
     >
-      {/* Imagem Cinematográfica em Tela Cheia - Doutora Clara, Nítida e em Destaque */}
+      {/* Imagem Cinematográfica em Tela Cheia (Full-bleed Background) */}
       <div className="absolute inset-0 z-0">
         <img
           src={heroImg}
-          alt="Dra. da Clínica Lumière Odontologia"
+          alt="Clínica Lumière Odontologia e recepção de alto padrão"
           width={1920}
           height={1080}
           fetchPriority="high"
-          className="h-full w-full object-cover object-[72%_center] sm:object-[78%_center] lg:object-[86%_center] scale-100 transition-transform duration-1000 ease-out"
+          className="h-full w-full object-cover object-[75%_center] sm:object-[80%_center] lg:object-[85%_center] scale-100 transition-transform duration-1000 ease-out"
         />
 
-        {/* Gradiente Scrim que protege o texto à esquerda mantendo a imagem da doutora 100% nítida e aparente */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5] via-[#FAF8F5]/92 via-35% md:via-42% to-transparent to-60%" />
+        {/* Gradiente Scrim Sofisticado para Contraste Impecável */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5] via-[#FAF8F5]/96 via-52% sm:via-55% lg:via-50% to-[#FAF8F5]/20 lg:to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-[#FAF8F5]/50 to-transparent sm:hidden" />
       </div>
 
       <div className="relative z-10 mx-auto w-[min(calc(100%-48px),1440px)]">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Conteúdo Textual e Comercial (Esquerda) */}
           <div
-            className={`lg:col-span-8 xl:col-span-7 flex flex-col justify-center transition-all duration-700 ease-out ${
+            className={`lg:col-span-7 xl:col-span-7 flex flex-col justify-center transition-all duration-700 ease-out ${
               isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
             }`}
           >
@@ -49,7 +66,7 @@ export function HeroSection({ onOpenAppointment, isVisible = true }: HeroSection
             </div>
 
             {/* Título Principal Editorial */}
-            <h1 className="mt-4 font-serif text-3xl sm:text-5xl lg:text-[54px] xl:text-[58px] leading-[1.08] font-normal tracking-tight text-[#1E1B18]">
+            <h1 className="mt-4 font-serif text-3xl sm:text-5xl lg:text-[54px] xl:text-[60px] leading-[1.08] font-normal tracking-tight text-[#1E1B18]">
               A arte da odontologia que{" "}
               <span className="font-serif italic font-normal text-[#966D38]">
                 transforma sua confiança.
@@ -64,7 +81,7 @@ export function HeroSection({ onOpenAppointment, isVisible = true }: HeroSection
             </p>
 
             {/* Prova Social Rápida com Google Reviews */}
-            <div className="mt-4.5 flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[#483A2E]">
+            <div className="mt-5 flex flex-wrap items-center gap-3 text-xs sm:text-sm text-[#483A2E]">
               <div className="flex items-center gap-1 text-[#C5A059]">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="h-4 w-4 fill-current" />
@@ -75,23 +92,90 @@ export function HeroSection({ onOpenAppointment, isVisible = true }: HeroSection
               <span className="text-[#6B6359]">+1.200 sorrisos cuidados com excelência</span>
             </div>
 
-            {/* Botões de Ação Principais Sofisticados */}
-            <div className="mt-7 flex flex-wrap items-center gap-3.5">
-              <button
-                type="button"
-                onClick={() => onOpenAppointment("Primeira Consulta de Avaliação")}
-                className="group shimmer-button inline-flex items-center justify-center gap-2 rounded-xl bg-[#483323] hover:bg-[#342417] px-7 py-3.5 text-xs sm:text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 cursor-pointer"
-              >
-                <span>Agendar avaliação exclusiva</span>
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </button>
+            {/* Barra Concierge Interativa de Agendamento Rápido */}
+            <form
+              onSubmit={handleQuickSubmit}
+              className="mt-6 sm:mt-7 rounded-2xl border border-[#E8DFD3] bg-white/95 p-3 sm:p-3.5 shadow-[0_12px_36px_rgba(72,51,35,0.08)] backdrop-blur-md max-w-[620px]"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-2.5 items-center">
+                <div className="sm:col-span-5">
+                  <label
+                    htmlFor="quick-treatment"
+                    className="block text-[10px] font-semibold uppercase tracking-wider text-[#8A7460] pl-2"
+                  >
+                    Procedimento desejado
+                  </label>
+                  <select
+                    id="quick-treatment"
+                    value={quickTreatment}
+                    onChange={(e) => setQuickTreatment(e.target.value)}
+                    className="mt-1 w-full rounded-xl border border-[#E0D5C7] bg-[#FAF8F5] px-3 py-2 text-xs font-medium text-[#1E1B18] focus:border-[#9E732B] focus:outline-none transition-colors"
+                  >
+                    <option value="Lentes de Contato Dental">Lentes de Contato Dental</option>
+                    <option value="Clareamento Dental Supervisionado">
+                      Clareamento Dental a Laser
+                    </option>
+                    <option value="Ortodontia com Alinhadores Invisíveis">
+                      Alinhadores Invisíveis
+                    </option>
+                    <option value="Implantes Dentários Guiados 3D">
+                      Implantes Dentários Guiados
+                    </option>
+                    <option value="Harmonização Facial Sutil">Harmonização Facial</option>
+                    <option value="Odontologia Estética e Biomimética">Odontologia Estética</option>
+                    <option value="Avaliação Geral com Scanner 3D">Avaliação Geral 3D</option>
+                  </select>
+                </div>
 
+                <div className="sm:col-span-3">
+                  <label
+                    htmlFor="quick-period"
+                    className="block text-[10px] font-semibold uppercase tracking-wider text-[#8A7460] pl-2"
+                  >
+                    Preferência
+                  </label>
+                  <select
+                    id="quick-period"
+                    value={quickPeriod}
+                    onChange={(e) => setQuickPeriod(e.target.value)}
+                    className="mt-1 w-full rounded-xl border border-[#E0D5C7] bg-[#FAF8F5] px-3 py-2 text-xs font-medium text-[#1E1B18] focus:border-[#9E732B] focus:outline-none transition-colors"
+                  >
+                    <option value="Manhã">Manhã</option>
+                    <option value="Tarde">Tarde</option>
+                    <option value="Sábado">Sábado</option>
+                  </select>
+                </div>
+
+                <div className="sm:col-span-4 pt-1 sm:pt-4">
+                  <button
+                    type="submit"
+                    className="group shimmer-button flex w-full items-center justify-center gap-2 rounded-xl bg-[#483323] hover:bg-[#342417] px-4 py-2.5 text-xs font-medium text-white shadow-sm transition-all duration-300 active:scale-95 cursor-pointer"
+                  >
+                    <span>Consultar agenda</span>
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            {/* Botões Secundários & Links Rápidos */}
+            <div className="mt-5 flex flex-wrap items-center gap-4">
               <a
                 href="#tratamentos"
-                className="group inline-flex items-center justify-center gap-2 rounded-xl border border-[#D5C7B7] bg-white/80 hover:bg-white px-5 py-3.5 text-xs sm:text-sm font-medium text-[#483323] transition-all cursor-pointer shadow-2xs"
+                className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#483323] hover:text-[#966D38] transition-colors"
               >
-                <span>Conhecer tratamentos</span>
-                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                <span>Explorar todas as especialidades</span>
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+              </a>
+
+              <span className="text-[#D0C4B6]">•</span>
+
+              <a
+                href="#tecnologia"
+                className="group inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-[#483323] hover:text-[#966D38] transition-colors"
+              >
+                <span>Conhecer o Scanner 3D</span>
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
               </a>
             </div>
 
@@ -131,8 +215,25 @@ export function HeroSection({ onOpenAppointment, isVisible = true }: HeroSection
             </div>
           </div>
 
-          {/* Lado Direito Livre para Deixar a Imagem da Doutora Totalmente Visível e Nítida */}
-          <div className="hidden lg:flex lg:col-span-4 xl:col-span-5 justify-end" />
+          {/* Destaque Flutuante na Direita (Sobre a Fotografia) */}
+          <div className="hidden lg:flex lg:col-span-5 justify-end">
+            <div className="flex flex-col gap-3">
+              <div className="rounded-2xl bg-white/95 backdrop-blur-md p-4 shadow-[0_16px_36px_rgba(72,51,35,0.12)] border border-[#E8DFD3] max-w-[280px]">
+                <div className="flex items-center gap-2 text-[#966D38] text-xs font-semibold uppercase tracking-wider">
+                  <Calendar className="h-3.5 w-3.5" />
+                  <span>Atendimento Exclusivo</span>
+                </div>
+                <p className="mt-1.5 text-xs text-[#483A2E] leading-relaxed">
+                  Consultas com horário dedicado, sem filas e com estacionamento privativo com
+                  manobrista.
+                </p>
+                <div className="mt-3 pt-2.5 border-t border-[#F0EAE1] flex items-center justify-between text-[11px] text-[#7D7063]">
+                  <span>Vila Nova Conceição</span>
+                  <span className="text-[#966D38] font-semibold">São Paulo - SP</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
