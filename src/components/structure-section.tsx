@@ -1,10 +1,20 @@
 import { useState } from "react";
-import { ArrowUpRight, ArrowRight, Armchair, Sparkles, Flower2, Coffee, Check } from "lucide-react";
+import {
+  ArrowUpRight,
+  ArrowRight,
+  Armchair,
+  Sparkles,
+  Flower2,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+} from "lucide-react";
 import aboutMain from "@/assets/about-main.jpg";
 import roomImg from "@/assets/room.jpg";
 import techScanner from "@/assets/tech-scanner.jpg";
 import consultImg from "@/assets/www.jpg";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 interface StructureSectionProps {
   onOpenAppointment: (treatmentName?: string) => void;
@@ -15,6 +25,7 @@ interface RoomPhoto {
   id: string;
   number: string;
   title: string;
+  subtitle: string;
   desc: string;
   img: string;
   features: string[];
@@ -25,33 +36,53 @@ const ROOM_PHOTOS: RoomPhoto[] = [
     id: "recepcao",
     number: "01 / 04",
     title: "Recepção & Lounge de Boas-Vindas",
-    desc: "Bancada em mármore italiano com retroiluminação suave, painéis em madeira nobre e poltronas aconchegantes para receber você sem esperas.",
+    subtitle: "Acolhimento imediato sem esperas",
+    desc: "Bancada em mármore italiano com retroiluminação suave, painéis em madeira nobre e poltronas aconchegantes para receber você com total privacidade e conforto.",
     img: aboutMain,
-    features: ["Cafeteria com grãos especiais", "Wi-Fi de alta velocidade", "Atendimento pontual"],
+    features: [
+      "Cafeteria com grãos especiais",
+      "Wi-Fi de alta velocidade",
+      "Atendimento estritamente pontual",
+    ],
   },
   {
     id: "consultorio",
     number: "02 / 04",
     title: "Suíte Master Clínica & Jardim Privativo",
+    subtitle: "Equilíbrio entre ergonomia e tranquilidade",
     desc: "Cadeira odontológica ergonômica com sistema anti-pressão, iluminação indireta calmante e ampla vista para o jardim de inverno privativo.",
     img: roomImg,
-    features: ["Fones com cancelamento de ruído", "Aromaterapia suave", "Privacidade total"],
+    features: [
+      "Fones com cancelamento de ruído",
+      "Aromaterapia suave e relaxante",
+      "Privacidade sonora total",
+    ],
   },
   {
     id: "sala-avaliacao",
     number: "03 / 04",
     title: "Ateliê de Planejamento Digital 3D",
-    desc: "Estúdio equipado com monitores de alta precisão cromática onde paciente e especialista desenham juntos cada linha do novo sorriso.",
+    subtitle: "Onde o seu novo sorriso é desenhado",
+    desc: "Estúdio equipado com monitores de alta precisão cromática onde paciente e especialista desenham juntos cada detalhe e simulação milimétrica do novo sorriso.",
     img: consultImg,
-    features: ["Visualização em tempo real", "Softwares DSD originais", "Transparência total"],
+    features: [
+      "Visualização 3D em tempo real",
+      "Softwares DSD originais",
+      "Aprovação prévia do paciente",
+    ],
   },
   {
     id: "sala-scanner",
     number: "04 / 04",
     title: "Central de Imagem Digital & Biossegurança",
-    desc: "Ambiente médico de tecnologia diagnóstica com esterilização de grau hospitalar rastreada e scanner intraoral 3D.",
+    subtitle: "Rastreamento e precisão cirúrgica",
+    desc: "Ambiente médico de tecnologia diagnóstica com esterilização de grau hospitalar rastreada e escaneamento intraoral 3D sem moldes desconfortáveis.",
     img: techScanner,
-    features: ["Sem massas desconfortáveis", "Esterilização classe B", "Filtros HEPA médicos"],
+    features: [
+      "Sem massas de moldagem",
+      "Esterilização hospitalar classe B",
+      "Filtros HEPA médicos contínuos",
+    ],
   },
 ];
 
@@ -61,7 +92,12 @@ export function StructureSection({ onOpenAppointment, isVisible = true }: Struct
 
   const mainPhoto = ROOM_PHOTOS[activePhotoIndex] ?? ROOM_PHOTOS[0]!;
 
-  const handleNextPhoto = (e: React.MouseEvent) => {
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActivePhotoIndex((prev) => (prev === 0 ? ROOM_PHOTOS.length - 1 : prev - 1));
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
     setActivePhotoIndex((prev) => (prev + 1) % ROOM_PHOTOS.length);
   };
@@ -69,69 +105,85 @@ export function StructureSection({ onOpenAppointment, isVisible = true }: Struct
   return (
     <section
       id="estrutura"
-      className="relative py-16 sm:py-20 lg:py-24 bg-[#FAF8F5]"
+      className="relative py-14 sm:py-18 lg:py-22 bg-[#FAF7F2] transition-colors"
       aria-label="Nossa Estrutura e Ambientes Acolhedores"
     >
-      <div className="mx-auto w-[min(calc(100%-48px),1440px)]">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          {/* Coluna de Texto (Esquerda) */}
+      <div className="site-container">
+        {/* Grade Rebalanceada: Proporções Perfeitas entre Texto e Galeria */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Coluna de Texto (Esquerda): Tipografia Maior, Melhor Leitura e Zero Espaço Vazio */}
           <div
             className={`lg:col-span-5 flex flex-col justify-center transition-all duration-700 ease-out ${
-              isVisible ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
+              isVisible ? "translate-x-0 opacity-100" : "-translate-x-6 opacity-0"
             }`}
           >
             <div className="flex items-center gap-2.5">
-              <span className="h-px w-5 bg-[#9E732B]" />
-              <p className="text-[11px] sm:text-xs font-semibold tracking-[0.24em] text-[#966D38] uppercase">
+              <span className="h-px w-6 bg-[#966D38]" />
+              <span className="text-xs font-semibold tracking-[0.24em] text-[#966D38] uppercase">
                 Arquitetura & Conforto
-              </p>
+              </span>
             </div>
 
-            <h2 className="mt-2 font-serif text-3xl sm:text-4xl lg:text-[42px] leading-[1.12] font-normal tracking-tight text-[#1E1B18]">
+            <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl lg:text-[42px] leading-[1.14] font-normal tracking-tight text-[#1E1B18]">
               Um espaço feito para você se sentir bem.
             </h2>
 
-            <p className="mt-3 text-sm sm:text-base text-[#5C554C] leading-relaxed max-w-[480px]">
-              Cada ambiente foi projetado para afastar a sensação fria de consultório e acolher você
-              com tranquilidade, conforto sensorial e biossegurança médica absoluta.
+            <p className="mt-3 text-sm sm:text-base text-[#554D43] leading-relaxed max-w-[480px]">
+              Cada ambiente foi planejado para afastar a sensação impessoal de consultório e acolher
+              você com tranquilidade, conforto sensorial e biossegurança médica absoluta.
             </p>
 
-            {/* 3 Diferenciais */}
-            <div className="mt-6 space-y-3">
-              <div className="flex items-center gap-3.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F2EDE5] text-[#7A5328] shadow-2xs">
-                  <Armchair className="h-4.5 w-4.5" strokeWidth={1.75} />
+            {/* 3 Diferenciais Estruturados com Ícones Elegantes e Textos Ricos */}
+            <div className="mt-6 space-y-3.5">
+              <div className="flex items-start gap-3.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F2EDE5] text-[#7A5328] shadow-2xs mt-0.5">
+                  <Armchair className="h-4.5 w-4.5" strokeWidth={1.8} />
                 </div>
-                <span className="text-xs sm:text-sm font-medium text-[#2E241B]">
-                  Ambientes privativos, silenciosos e acolhedores
-                </span>
+                <div>
+                  <h4 className="text-sm sm:text-[15px] font-semibold text-[#221B16]">
+                    Ambientes privativos e silenciosos
+                  </h4>
+                  <p className="text-xs sm:text-[13px] text-[#6B6156] mt-0.5 leading-snug">
+                    Salas individuais com controle acústico e lounge intimista de recepção.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center gap-3.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F2EDE5] text-[#7A5328] shadow-2xs">
-                  <Sparkles className="h-4.5 w-4.5" strokeWidth={1.75} />
+              <div className="flex items-start gap-3.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F2EDE5] text-[#7A5328] shadow-2xs mt-0.5">
+                  <Sparkles className="h-4.5 w-4.5" strokeWidth={1.8} />
                 </div>
-                <span className="text-xs sm:text-sm font-medium text-[#2E241B]">
-                  Salas com tecnologia digital de precisão 3D
-                </span>
+                <div>
+                  <h4 className="text-sm sm:text-[15px] font-semibold text-[#221B16]">
+                    Tecnologia integrada de precisão 3D
+                  </h4>
+                  <p className="text-xs sm:text-[13px] text-[#6B6156] mt-0.5 leading-snug">
+                    Estúdio de simulação em tempo real e centro de imagem digital.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center gap-3.5">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#F2EDE5] text-[#7A5328] shadow-2xs">
-                  <Flower2 className="h-4.5 w-4.5" strokeWidth={1.75} />
+              <div className="flex items-start gap-3.5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F2EDE5] text-[#7A5328] shadow-2xs mt-0.5">
+                  <Flower2 className="h-4.5 w-4.5" strokeWidth={1.8} />
                 </div>
-                <span className="text-xs sm:text-sm font-medium text-[#2E241B]">
-                  Conforto acústico, iluminação calma e aromaterapia
-                </span>
+                <div>
+                  <h4 className="text-sm sm:text-[15px] font-semibold text-[#221B16]">
+                    Conforto sensorial e bem-estar
+                  </h4>
+                  <p className="text-xs sm:text-[13px] text-[#6B6156] mt-0.5 leading-snug">
+                    Iluminação indireta quente, aromaterapia calmante e vista para jardim.
+                  </p>
+                </div>
               </div>
             </div>
 
             {/* Botão de Ação */}
-            <div className="mt-8">
+            <div className="mt-7">
               <button
                 type="button"
                 onClick={() => onOpenAppointment("Visita à Estrutura")}
-                className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#483323] hover:bg-[#342417] px-6 py-3.5 text-xs sm:text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 cursor-pointer"
+                className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#3B2920] hover:bg-[#281B14] px-6 py-3.5 text-xs sm:text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 cursor-pointer"
               >
                 <span>Conheça nossa estrutura</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -139,100 +191,141 @@ export function StructureSection({ onOpenAppointment, isVisible = true }: Struct
             </div>
           </div>
 
-          {/* Mosaico de Fotografias Arquitetônicas (Direita) */}
+          {/* Coluna da Galeria (Direita): Proporção Reduzida em ~20% e Altura Perfeitamente Integrada */}
           <div
             className={`lg:col-span-7 transition-all duration-700 delay-150 ease-out ${
-              isVisible ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
+              isVisible ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"
             }`}
           >
-            <div className="grid grid-cols-2 gap-4 sm:gap-4.5">
-              {/* Foto Principal Superior com Indicador de Slide */}
+            <div className="flex flex-col gap-3">
+              {/* Imagem Principal da Galeria com Altura Controlada e Transição Fluida */}
               <div
                 onClick={() => setSelectedPhoto(mainPhoto)}
-                className="col-span-2 group relative aspect-[16/9.5] overflow-hidden rounded-2xl border border-[#E8DFD3] bg-[#EFE9DF] shadow-[0_6px_24px_rgba(72,51,35,0.06)] cursor-pointer"
+                className="group relative h-[260px] sm:h-[310px] lg:h-[330px] w-full overflow-hidden rounded-2xl sm:rounded-[22px] border border-[#E8DFD3] bg-[#EFE9DF] shadow-[0_4px_24px_rgba(72,51,35,0.06)] cursor-pointer"
               >
-                <img
-                  src={mainPhoto.img}
-                  alt={mainPhoto.title}
-                  loading="lazy"
-                  className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                />
+                {ROOM_PHOTOS.map((room, idx) => {
+                  const isActive = activePhotoIndex === idx;
+                  return (
+                    <div
+                      key={room.id}
+                      className={`absolute inset-0 transition-opacity duration-500 ease-out ${
+                        isActive
+                          ? "opacity-100 scale-100"
+                          : "opacity-0 scale-102 pointer-events-none"
+                      }`}
+                    >
+                      <img
+                        src={room.img}
+                        alt={room.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-104"
+                      />
+                    </div>
+                  );
+                })}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent pointer-events-none" />
 
-                {/* Número do Slide e Título */}
-                <div className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 text-white/95">
-                  <span className="text-[11px] font-semibold tracking-widest text-[#ECC87E] uppercase block">
-                    {mainPhoto.number}
+                {/* Badge Superior Direito: Expandir Foto */}
+                <div className="absolute top-3.5 right-3.5 z-10">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 backdrop-blur-md text-white/90 hover:text-white transition-colors">
+                    <Maximize2 className="h-3.5 w-3.5" />
                   </span>
-                  <span className="font-serif text-lg sm:text-xl font-normal text-white mt-0.5 block">
+                </div>
+
+                {/* Identificação Inferior do Ambiente Ativo */}
+                <div className="absolute bottom-3.5 left-4 sm:bottom-4 sm:left-5 text-white/95 max-w-[80%]">
+                  <span className="text-[10px] sm:text-[11px] font-semibold tracking-widest text-[#ECC87E] uppercase block">
+                    {mainPhoto.number} • {mainPhoto.subtitle}
+                  </span>
+                  <span className="font-serif text-base sm:text-lg lg:text-xl font-normal text-white mt-0.5 block leading-snug">
                     {mainPhoto.title}
                   </span>
                 </div>
 
-                {/* Botão Circular com Seta para Avançar */}
+                {/* Botões de Navegação Flutuantes Anterior / Próximo */}
+                <div className="absolute bottom-3.5 right-3.5 sm:bottom-4 sm:right-4 flex items-center gap-1.5 z-10">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    aria-label="Ambiente anterior"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-md transition-all active:scale-90"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    aria-label="Próximo ambiente"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#3B2920] shadow-md transition-all hover:scale-105 active:scale-90"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Mosaico Inferior de 4 Thumbnails Clicáveis dos Ambientes */}
+              <div className="grid grid-cols-4 gap-2 sm:gap-2.5">
+                {ROOM_PHOTOS.map((room, idx) => {
+                  const isActive = activePhotoIndex === idx;
+                  return (
+                    <button
+                      key={room.id}
+                      type="button"
+                      onClick={() => setActivePhotoIndex(idx)}
+                      className={`group relative h-16 sm:h-18 lg:h-20 w-full overflow-hidden rounded-xl border transition-all duration-300 cursor-pointer ${
+                        isActive
+                          ? "border-[#B89264] ring-2 ring-[#B89264]/50 scale-[1.02] shadow-sm"
+                          : "border-[#E8DFD3] opacity-75 hover:opacity-100 hover:border-[#D5C4B0]"
+                      }`}
+                    >
+                      <img
+                        src={room.img}
+                        alt={room.title}
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                      <div
+                        className={`absolute inset-0 transition-colors ${
+                          isActive ? "bg-black/10" : "bg-black/30 group-hover:bg-black/10"
+                        }`}
+                      />
+                      <span className="absolute bottom-1 left-1.5 font-mono text-[9px] font-semibold text-white/90 bg-black/60 px-1.5 py-0.5 rounded">
+                        0{idx + 1}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Barra Inferior com Indicadores e Link de Detalhes */}
+              <div className="mt-1 flex items-center justify-between text-xs text-[#6B6156]">
+                <div className="flex items-center gap-1.5">
+                  {ROOM_PHOTOS.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setActivePhotoIndex(i)}
+                      aria-label={`Ver foto ${i + 1}`}
+                      className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                        activePhotoIndex === i
+                          ? "w-6 bg-[#966D38]"
+                          : "w-2 bg-[#DCD3C7] hover:bg-[#966D38]/60"
+                      }`}
+                    />
+                  ))}
+                </div>
+
                 <button
                   type="button"
-                  onClick={handleNextPhoto}
-                  aria-label="Avançar para o próximo ambiente"
-                  className="absolute bottom-4 right-4 sm:bottom-5 sm:right-5 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full bg-white text-[#483323] shadow-md transition-all duration-300 hover:scale-108 hover:bg-[#FAF8F5]"
+                  onClick={() => setSelectedPhoto(mainPhoto)}
+                  className="inline-flex items-center gap-1 font-semibold text-[#3B2920] hover:text-[#8C6239] transition-colors cursor-pointer"
                 >
-                  <ArrowRight className="h-4 w-4" />
+                  <span>Explorar detalhes deste ambiente</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </button>
               </div>
-
-              {/* 2 Fotos Secundárias Inferiores */}
-              {ROOM_PHOTOS.slice(1, 3).map((room, idx) => (
-                <div
-                  key={room.id}
-                  onClick={() => {
-                    setActivePhotoIndex(idx + 1);
-                    setSelectedPhoto(room);
-                  }}
-                  className="group relative aspect-[16/10] overflow-hidden rounded-2xl border border-[#E8DFD3] bg-[#EFE9DF] shadow-[0_4px_16px_rgba(72,51,35,0.04)] cursor-pointer"
-                >
-                  <img
-                    src={room.img}
-                    alt={room.title}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-106"
-                  />
-                  <div className="absolute inset-0 bg-black/15 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-[10px] font-medium tracking-wider bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-md">
-                      {room.number}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Barra Inferior com Indicadores e Link Interativo */}
-            <div className="mt-4 sm:mt-5 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {ROOM_PHOTOS.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setActivePhotoIndex(i)}
-                    aria-label={`Ver foto ${i + 1}`}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      activePhotoIndex === i
-                        ? "w-6 bg-[#966D38]"
-                        : "w-2 bg-[#DCD3C7] hover:bg-[#966D38]/60"
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setSelectedPhoto(mainPhoto)}
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#483323] hover:text-[#7A5328] transition-colors cursor-pointer"
-              >
-                <span>Explorar detalhes dos ambientes</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
             </div>
           </div>
         </div>
@@ -240,7 +333,7 @@ export function StructureSection({ onOpenAppointment, isVisible = true }: Struct
 
       {/* Modal Lightbox Arquitetônico */}
       <Dialog open={!!selectedPhoto} onOpenChange={(open) => !open && setSelectedPhoto(null)}>
-        <DialogContent className="max-w-[92vw] sm:max-w-[760px] p-0 overflow-hidden rounded-[20px] sm:rounded-[24px] border border-[#E8DFD3] bg-[#FAF8F5] shadow-2xl">
+        <DialogContent className="max-w-[92vw] sm:max-w-[720px] p-0 overflow-hidden rounded-[24px] border border-[#E8DFD3] bg-[#FAF7F2] shadow-2xl">
           {selectedPhoto && (
             <div>
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-black">
@@ -257,18 +350,18 @@ export function StructureSection({ onOpenAppointment, isVisible = true }: Struct
               </div>
 
               <div className="p-6 sm:p-7">
-                <h3 className="font-serif text-2xl sm:text-3xl text-[#1E1B18] font-normal leading-snug">
+                <DialogTitle className="font-serif text-2xl sm:text-3xl text-[#1E1B18] font-normal leading-snug">
                   {selectedPhoto.title}
-                </h3>
-                <p className="mt-2 text-xs sm:text-sm text-[#5C554C] leading-relaxed">
+                </DialogTitle>
+                <DialogDescription className="mt-2 text-xs sm:text-sm text-[#5C554C] leading-relaxed">
                   {selectedPhoto.desc}
-                </p>
+                </DialogDescription>
 
                 <div className="mt-4 pt-3.5 border-t border-[#EAE2D7] flex flex-wrap gap-2">
                   {selectedPhoto.features.map((f) => (
                     <span
                       key={f}
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-[#F2EDE5] px-3 py-1 text-xs font-medium text-[#483323]"
+                      className="inline-flex items-center gap-1.5 rounded-lg bg-[#F2EDE5] px-3 py-1.5 text-xs font-medium text-[#483323]"
                     >
                       <Check className="h-3 w-3 text-[#966D38]" />
                       {f}
@@ -284,7 +377,7 @@ export function StructureSection({ onOpenAppointment, isVisible = true }: Struct
                       setSelectedPhoto(null);
                       onOpenAppointment(`Visita ao ${t}`);
                     }}
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#483323] hover:bg-[#342417] px-6 py-3 text-xs sm:text-sm font-medium text-white shadow-2xs transition-all active:scale-95 cursor-pointer"
+                    className="inline-flex items-center gap-2 rounded-xl bg-[#3B2920] hover:bg-[#281B14] px-6 py-3 text-xs sm:text-sm font-medium text-white shadow-2xs transition-all active:scale-95 cursor-pointer"
                   >
                     <span>Agendar visita presencial</span>
                     <ArrowUpRight className="h-4 w-4" />
@@ -293,7 +386,7 @@ export function StructureSection({ onOpenAppointment, isVisible = true }: Struct
                   <button
                     type="button"
                     onClick={() => setSelectedPhoto(null)}
-                    className="rounded-xl border border-[#DCD3C7] px-5 py-3 text-xs sm:text-sm font-medium text-[#4A3D31] hover:bg-[#EFE8DE] transition-colors cursor-pointer"
+                    className="rounded-xl border border-[#DCD3C7] bg-white px-5 py-3 text-xs sm:text-sm font-medium text-[#4A3D31] hover:bg-[#EFE8DE] transition-colors cursor-pointer"
                   >
                     Fechar
                   </button>

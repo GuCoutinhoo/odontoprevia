@@ -92,7 +92,7 @@ export function TestimonialsSection({
       className="relative py-16 sm:py-20 lg:py-24 bg-[#FAF8F5]"
       aria-label="Avaliações e Depoimentos de Pacientes"
     >
-      <div className="mx-auto w-[min(calc(100%-48px),1440px)]">
+      <div className="site-container">
         {/* Cabeçalho com Destaque Google Reviews */}
         <div
           className={`flex flex-col gap-4 md:flex-row md:items-end md:justify-between transition-all duration-700 ease-out ${

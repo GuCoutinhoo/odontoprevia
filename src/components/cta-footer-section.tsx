@@ -26,7 +26,7 @@ export function CtaFooterSection({ onOpenAppointment, isVisible = true }: CtaFoo
       className="relative pt-16 sm:pt-20 lg:pt-24 pb-12 bg-[#FAF8F5]"
       aria-label="Contato e Rodapé da Clínica Lumière"
     >
-      <div className="mx-auto w-[min(calc(100%-48px),1440px)]">
+      <div className="site-container">
         {/* Banner de Conversão Principal de Alto Impacto */}
         <div
           className={`relative overflow-hidden rounded-3xl bg-[#2D241F] text-white shadow-[0_20px_50px_rgba(45,36,31,0.22)] transition-all duration-700 ease-out ${

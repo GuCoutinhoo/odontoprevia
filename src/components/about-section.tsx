@@ -21,7 +21,7 @@ export function AboutSection({ onOpenAppointment, isVisible = true }: AboutSecti
       className="relative py-16 sm:py-20 lg:py-24 bg-[#FAF8F5]"
       aria-label="Sobre a Lumière Odontologia"
     >
-      <div className="mx-auto w-[min(calc(100%-48px),1440px)]">
+      <div className="site-container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Coluna Visual (Esquerda) com Composição de Duas Fotos Editoriais */}
           <div

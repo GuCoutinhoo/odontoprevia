@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUpRight, ArrowRight, MessageSquare, Plus, Minus, HelpCircle } from "lucide-react";
+import { ArrowUpRight, MessageSquare, Plus, Minus, ShieldCheck, Clock, Car } from "lucide-react";
 import { getWhatsAppUrl } from "@/config/clinic";
 
 interface FaqSectionProps {
@@ -16,17 +16,17 @@ const FAQS: FaqItem[] = [
   {
     id: "avaliacao",
     q: "Como funciona a primeira avaliação diagnóstica?",
-    a: "Em uma consulta dedicada e sem pressa, conversamos sobre seus objetivos e desejos estéticos. Realizamos o escaneamento intraoral 3D de alta precisão (sem massas) e fotos profissionais. Na mesma sessão, você já visualiza a simulação tridimensional do seu caso e recebe um plano de tratamento claro e detalhado.",
+    a: "Em uma consulta individual e detalhada, conversamos sobre seus objetivos e desejos estéticos. Realizamos o escaneamento intraoral 3D sem moldes desconfortáveis e documentação fotográfica. Na mesma sessão, você já visualiza a simulação tridimensional da sua arcada e recebe um plano de tratamento claro com etapas e investimentos.",
   },
   {
     id: "dor",
     q: "Os procedimentos causam dor ou desconforto?",
-    a: "Não. Na Lumière, priorizamos o atendimento 100% humanizado e sem dor. Utilizamos tecnologia de anestesia computadorizada sem agulhas convencionais, protocolos prévios contra sensibilidade dental e, para pacientes que preferem relaxamento profundo, oferecemos sedação consciente supervisionada por médico anestesiologista.",
+    a: "Não. Priorizamos o atendimento 100% humanizado e confortável. Utilizamos tecnologia de anestesia computadorizada sem picada convencional, protocolos prévios contra sensibilidade dental e, para pacientes que preferem relaxamento profundo, oferecemos sedação consciente supervisionada por médico anestesiologista.",
   },
   {
     id: "lentes",
     q: "Qual a durabilidade e resistência das lentes de porcelana?",
-    a: "Trabalhamos exclusivamente com cerâmicas suíças e alemãs de padrão ouro mundial (como E-Max e feldspáticas). Com a correta higienização e revisões preventivas semestrais, as lentes possuem durabilidade que frequentemente ultrapassa 15 a 20 anos, mantendo o brilho, a textura e sem escurecer ou manchar com café ou vinho.",
+    a: "Trabalhamos exclusivamente com cerâmicas puras alemãs e suíças de padrão ouro internacional (E-Max e feldspáticas). Com a correta higienização e revisões semestrais, as lentes possuem durabilidade que frequentemente ultrapassa 15 a 20 anos, mantendo o brilho, a textura e sem escurecer ou manchar.",
   },
   {
     id: "alinhadores",
@@ -35,13 +35,13 @@ const FAQS: FaqItem[] = [
   },
   {
     id: "pagamento",
-    q: "Quais são as condições de pagamento e parcelamento?",
-    a: "Oferecemos flexibilidade personalizada para o seu planejamento financeiro: parcelamento facilitado em até 12x ou 18x no cartão de crédito, condições especiais para pagamentos programados à vista e fornecemos toda a documentação comprobatória e relatórios clínicos necessários para reembolso junto ao seu convênio médico.",
+    q: "Quais são as condições de pagamento e facilidades?",
+    a: "Oferecemos flexibilidade personalizada para o seu planejamento financeiro: parcelamento facilitado no cartão de crédito em até 12x ou 18x, condições especiais para pagamentos programados à vista e fornecemos toda a documentação comprobatória e relatórios clínicos necessários para reembolso junto ao seu convênio médico.",
   },
   {
     id: "estrutura",
     q: "A clínica possui estacionamento e fácil acesso?",
-    a: "Sim. Estamos estrategicamente localizados na Vila Nova Conceição em São Paulo, com serviço cortesia de valet e manobrista na porta, segurança privativa e acessibilidade total para cadeirantes em todos os consultórios.",
+    a: "Sim. Estamos estrategicamente localizados em São Paulo com serviço cortesia de valet e manobrista na porta, segurança privativa e acessibilidade total para cadeirantes em todos os consultórios.",
   },
 ];
 
@@ -55,128 +55,146 @@ export function FaqSection({ isVisible = true }: FaqSectionProps) {
   return (
     <section
       id="faq"
-      className="relative py-16 sm:py-20 lg:py-24 bg-[#FAF8F5]"
+      className="relative py-14 sm:py-18 lg:py-22 bg-[#FAF7F2] transition-colors"
       aria-label="Perguntas Frequentes sobre Tratamentos Odontológicos"
     >
-      <div className="mx-auto w-[min(calc(100%-48px),1440px)]">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
-          {/* Coluna da Esquerda (Apresentação & Card de Dúvidas) */}
-          <div
-            className={`lg:col-span-5 flex flex-col justify-between transition-all duration-700 ease-out ${
-              isVisible ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
-            }`}
-          >
-            <div>
-              <div className="flex items-center gap-2.5">
-                <span className="h-px w-5 bg-[#9E732B]" />
-                <p className="text-[11px] sm:text-xs font-semibold tracking-[0.24em] text-[#966D38] uppercase">
-                  Esclarecimentos Clínicos
-                </p>
+      <div className="site-container">
+        {/* Cabeçalho da Seção */}
+        <div
+          className={`max-w-[760px] transition-all duration-700 ease-out ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            <span className="h-px w-6 bg-[#966D38]" />
+            <span className="text-xs font-semibold tracking-[0.24em] text-[#966D38] uppercase">
+              Esclarecimentos Clínicos
+            </span>
+          </div>
+
+          <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl lg:text-[44px] leading-[1.14] font-normal tracking-tight text-[#221B16]">
+            Dúvidas frequentes.
+          </h2>
+
+          <p className="mt-2.5 text-sm sm:text-base text-[#665D53] leading-relaxed max-w-[640px]">
+            Respostas claras e transparentes para orientar você a dar o próximo passo rumo ao seu
+            novo sorriso com total tranquilidade e segurança.
+          </p>
+        </div>
+
+        {/* Grade Reestruturada: Coluna Esquerda Integrada (Concierge) + Acordeão à Direita */}
+        <div
+          className={`mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-8 items-start transition-all duration-700 delay-100 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+          }`}
+        >
+          {/* Coluna da Esquerda: Card Concierge VIP Integrado */}
+          <div className="lg:col-span-5 flex flex-col gap-4">
+            <div className="rounded-[24px] border border-[#E8DFD3] bg-white p-6 sm:p-7 shadow-[0_4px_24px_rgba(72,51,35,0.04)]">
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F6EFE6] text-[#8C6239] shadow-2xs">
+                  <MessageSquare className="h-5 w-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#966D38] block">
+                    Canal Direto
+                  </span>
+                  <h3 className="font-serif text-lg sm:text-xl font-normal text-[#221B16] leading-snug">
+                    Prefere falar agora?
+                  </h3>
+                </div>
               </div>
 
-              <h2 className="mt-2 font-serif text-3xl sm:text-4xl lg:text-[42px] leading-[1.12] font-normal tracking-tight text-[#1E1B18]">
-                Dúvidas frequentes.
-              </h2>
-
-              <p className="mt-3 text-sm sm:text-base text-[#5C554C] leading-relaxed max-w-[440px]">
-                Respostas transparentes para ajudar você a dar o próximo passo rumo ao seu novo
-                sorriso com total tranquilidade e segurança.
+              <p className="mt-3.5 text-xs sm:text-[13.5px] text-[#5C5348] leading-relaxed">
+                Nossa equipe concierge está à disposição no WhatsApp para esclarecer prazos, valores
+                e agendamentos de forma rápida e confidencial.
               </p>
-            </div>
 
-            {/* Card "Ainda tem dúvidas?" */}
-            <div className="mt-8 rounded-2xl border border-[#E5DAD0] bg-[#F4EFE8] p-6 shadow-2xs">
-              <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white border border-[#DDD3C5] text-[#483323] shadow-2xs">
-                  <MessageSquare className="h-5 w-5" strokeWidth={1.75} />
+              <div className="mt-5 pt-4 border-t border-[#F0EAE0] space-y-2.5 text-xs text-[#554C42]">
+                <div className="flex items-center gap-2.5">
+                  <ShieldCheck className="h-4 w-4 text-[#8C6239] shrink-0" />
+                  <span>Atendimento clínico individualizado</span>
                 </div>
-
-                <div>
-                  <h4 className="font-serif text-base sm:text-lg font-normal text-[#1E1B18]">
-                    Ainda tem alguma dúvida específica?
-                  </h4>
-                  <p className="mt-1 text-xs text-[#665D53] leading-relaxed">
-                    Nossa equipe concierge está disponível em tempo real no WhatsApp para orientar
-                    você.
-                  </p>
-
-                  <div className="mt-4">
-                    <a
-                      href={getWhatsAppUrl(
-                        "Olá! Gostaria de esclarecer algumas dúvidas sobre os tratamentos da Lumière Odontologia.",
-                      )}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-2 rounded-xl bg-[#483323] hover:bg-[#342417] px-5 py-2.5 text-xs font-medium text-white shadow-2xs transition-all active:scale-95 cursor-pointer"
-                    >
-                      <span>Conversar com a equipe</span>
-                      <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </a>
-                  </div>
+                <div className="flex items-center gap-2.5">
+                  <Clock className="h-4 w-4 text-[#8C6239] shrink-0" />
+                  <span>Respostas ágeis em horário comercial</span>
                 </div>
+                <div className="flex items-center gap-2.5">
+                  <Car className="h-4 w-4 text-[#8C6239] shrink-0" />
+                  <span>Estacionamento com serviço de valet cortesia</span>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <a
+                  href={getWhatsAppUrl(
+                    "Olá! Gostaria de esclarecer algumas dúvidas com a equipe da Lumière Odontologia.",
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#3B2920] hover:bg-[#281B14] w-full py-3.5 px-5 text-xs sm:text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 cursor-pointer"
+                >
+                  <span>Conversar pelo WhatsApp</span>
+                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
               </div>
             </div>
           </div>
 
-          {/* Coluna da Direita (Acordeão de Perguntas) */}
-          <div
-            className={`lg:col-span-7 flex flex-col justify-between transition-all duration-700 delay-150 ease-out ${
-              isVisible ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
-            }`}
-          >
-            <div className="space-y-3" role="region" aria-label="Acordeão de Perguntas Frequentes">
-              {FAQS.map((faq) => {
-                const isOpen = openId === faq.id;
-                return (
+          {/* Coluna da Direita: Acordeão com Espaçamento e Tipografia Otimizados */}
+          <div className="lg:col-span-7 flex flex-col gap-3">
+            {FAQS.map((faq) => {
+              const isOpen = openId === faq.id;
+              return (
+                <div
+                  key={faq.id}
+                  className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                    isOpen
+                      ? "border-[#B89264] bg-[#FAF5EF] shadow-sm ring-1 ring-[#B89264]/30"
+                      : "border-[#EBE3D7] bg-white hover:border-[#D5C4B0] hover:bg-[#FAF7F2]"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggleFaq(faq.id)}
+                    aria-expanded={isOpen}
+                    className="w-full flex items-center justify-between p-4.5 sm:p-5 text-left cursor-pointer focus-visible:outline-none"
+                  >
+                    <span
+                      className={`font-serif text-base sm:text-[18px] leading-snug pr-4 transition-colors ${
+                        isOpen ? "text-[#221B16] font-medium" : "text-[#2A231E]"
+                      }`}
+                    >
+                      {faq.q}
+                    </span>
+
+                    <div
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                        isOpen
+                          ? "bg-[#3B2920] text-white rotate-180 shadow-2xs"
+                          : "border border-[#DCD3C7] text-[#554A40] bg-white"
+                      }`}
+                    >
+                      {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+                    </div>
+                  </button>
+
                   <div
-                    key={faq.id}
-                    className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                    className={`grid transition-all duration-300 ease-in-out ${
                       isOpen
-                        ? "border-[#C5A059] bg-white shadow-[0_6px_20px_rgba(72,51,35,0.05)] ring-1 ring-[#C5A059]/40"
-                        : "border-[#E8DFD3] bg-white/80 hover:bg-white hover:border-[#D1B58C]"
+                        ? "grid-rows-[1fr] opacity-100"
+                        : "grid-rows-[0fr] opacity-0 pointer-events-none"
                     }`}
                   >
-                    <button
-                      type="button"
-                      onClick={() => toggleFaq(faq.id)}
-                      aria-expanded={isOpen}
-                      className="w-full flex items-center justify-between p-4 sm:p-5 text-left cursor-pointer focus-visible:outline-none"
-                    >
-                      <span className="font-serif text-base sm:text-lg font-normal text-[#1E1B18] pr-4 leading-snug">
-                        {faq.q}
-                      </span>
-                      <div
-                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
-                          isOpen
-                            ? "border-[#483323] bg-[#483323] text-white"
-                            : "border-[#DCD3C7] text-[#4A3D31] bg-[#FAF8F5]"
-                        }`}
-                      >
-                        {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                      </div>
-                    </button>
-
-                    {isOpen && (
-                      <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-[#5C554C] leading-relaxed border-t border-[#F2ECE3]">
+                    <div className="overflow-hidden">
+                      <div className="px-5 pb-5 pt-1 text-xs sm:text-[14px] text-[#554D43] leading-relaxed border-t border-[#EFE8DE]">
                         {faq.a}
                       </div>
-                    )}
+                    </div>
                   </div>
-                );
-              })}
-            </div>
-
-            <div className="mt-5 flex justify-end">
-              <a
-                href={getWhatsAppUrl("Olá! Gostaria de tirar dúvidas com a equipe da Lumière.")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#483323] hover:text-[#7A5328] transition-colors"
-              >
-                <span>Falar diretamente com um especialista</span>
-                <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

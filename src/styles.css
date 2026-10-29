@@ -311,3 +311,10 @@
   font-style: italic;
   color: var(--primary);
 }
+
+/* Container responsivo unificado com margens reduzidas em ~15-20% e clamp fluido */
+.site-container {
+  width: min(calc(100% - clamp(20px, 3.5vw, 48px)), 1500px);
+  margin-left: auto;
+  margin-right: auto;
+}
