@@ -85,7 +85,7 @@ export function HeroSection({ onOpenAppointment, isVisible = true }: HeroSection
           {/* 3. Frase Curta e Refinada */}
           <p className="mt-2.5 sm:mt-3 text-[13px] xs:text-[14px] sm:text-[15px] text-[#D8CEBF] leading-[1.52] max-w-[360px] font-normal">
             Planejamento digital 3D, precisão biomimética e acolhimento singular para desenhar o seu
-            sorriso ideal.
+            sorriso ideal
           </p>
 
           {/* 4. CTA Primário Único e Dominante */}
