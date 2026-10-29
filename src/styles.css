@@ -152,9 +152,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
   body {
     font-family: var(--font-sans);
+    overflow-x: hidden;
   }
   h1,
   h2,
@@ -255,6 +257,21 @@
   background: linear-gradient(135deg, #7a5328 0%, #b88b4a 50%, #7a5328 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* Ocultar barra de rolagem visualmente em todos os navegadores, preservando swipe suave por toque */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
 }
 
 @media (prefers-reduced-motion: reduce) {

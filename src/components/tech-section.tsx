@@ -153,14 +153,14 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
     }
   };
 
-  const handlePrev = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handlePrev = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     const newIdx = activeTechIndex === 0 ? TECH_ITEMS.length - 1 : activeTechIndex - 1;
     handleSelectTech(newIdx);
   };
 
-  const handleNext = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleNext = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
     const newIdx = activeTechIndex === TECH_ITEMS.length - 1 ? 0 : activeTechIndex + 1;
     handleSelectTech(newIdx);
   };
@@ -168,13 +168,13 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
   return (
     <section
       id="tecnologia"
-      className="relative py-14 sm:py-18 lg:py-22 bg-[#FAF7F2] transition-colors"
+      className="relative py-12 sm:py-16 lg:py-22 bg-[#FAF7F2] transition-colors"
       aria-label="Tecnologia e Inovação para o seu sorriso"
     >
       <div className="site-container">
         {/* Cabeçalho Superior */}
         <div
-          className={`flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between transition-all duration-700 ease-out ${
+          className={`flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between transition-all duration-700 ease-out ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
@@ -186,11 +186,11 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
               </span>
             </div>
 
-            <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl lg:text-[44px] leading-[1.14] font-normal tracking-tight text-[#221B16]">
+            <h2 className="mt-2 font-serif text-[26px] sm:text-4xl lg:text-[44px] leading-[1.14] font-normal tracking-tight text-[#221B16]">
               Mais precisão para cuidar do seu sorriso.
             </h2>
 
-            <p className="mt-2.5 text-sm sm:text-base text-[#665D53] leading-relaxed max-w-[700px]">
+            <p className="mt-2 text-xs sm:text-base text-[#665D53] leading-relaxed max-w-[700px]">
               Utilizamos tecnologia de ponta para oferecer diagnósticos mais precisos, tratamentos
               mais previsíveis e uma experiência muito mais confortável.
             </p>
@@ -200,25 +200,133 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
             <button
               type="button"
               onClick={() => onOpenAppointment("Tecnologias Odontológicas")}
-              className="group inline-flex items-center gap-2 rounded-full bg-[#3B2920] hover:bg-[#281B14] px-6 py-3.5 text-xs sm:text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 cursor-pointer whitespace-nowrap"
+              className="group inline-flex items-center gap-2 rounded-full bg-[#3B2920] hover:bg-[#281B14] px-4.5 py-2.5 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 cursor-pointer whitespace-nowrap"
             >
               <span>Conheça nossas tecnologias</span>
-              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
           </div>
         </div>
 
-        {/* Bloco Central: Ajustado para altura equilibrada entre Coluna Esquerda e Direita (Sem Espaço Vazio) */}
+        {/* =========================================================================
+            LAYOUT MOBILE E TABLET (lg:hidden):
+            Em vez de empilhar uma imagem gigante + 3 acordeões inteiros um embaixo do outro,
+            oferece um seletor em abas horizontais com card interativo e benefícios lado a lado.
+           ========================================================================= */}
+        <div className="lg:hidden mt-6 rounded-2xl border border-[#EBE3D7] bg-white p-4 sm:p-6 shadow-sm">
+          {/* Seletor de Abas em Grade / Linha Horizontal */}
+          <div className="grid grid-cols-3 gap-1.5 p-1 rounded-xl bg-[#F4EFE6] border border-[#E8DFC8]">
+            {TECH_ITEMS.map((item, idx) => {
+              const isSelected = activeTechIndex === idx;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => handleSelectTech(idx)}
+                  className={`py-2 px-1 text-center rounded-lg text-xs font-medium transition-all ${
+                    isSelected
+                      ? "bg-[#3B2920] text-white shadow-xs font-semibold"
+                      : "text-[#5C5044] hover:text-[#1E1B18]"
+                  }`}
+                >
+                  <span className="block text-[10px] text-[#C5A059]">{item.number}</span>
+                  <span className="truncate block leading-tight">{item.title.split(" ")[0]}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Card Interativo com Imagem Compacta e Informações Lado a Lado */}
+          <div className="mt-4">
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-[#EBE3D7] shadow-inner">
+              <img
+                src={activeTech.image}
+                alt={activeTech.imageAlt}
+                className="h-full w-full object-cover transition-opacity duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+              {/* Controles Flutuantes Prev/Next */}
+              <div className="absolute bottom-2.5 right-2.5 flex items-center gap-1.5 rounded-full bg-black/65 backdrop-blur-md px-2 py-1 text-white border border-white/15">
+                <button
+                  type="button"
+                  onClick={() => handlePrev()}
+                  aria-label="Anterior"
+                  className="p-1 hover:text-[#ECC87E]"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </button>
+                <span className="text-[10px] font-mono tabular-nums">0{activeTechIndex + 1}/03</span>
+                <button
+                  type="button"
+                  onClick={() => handleNext()}
+                  aria-label="Próximo"
+                  className="p-1 hover:text-[#ECC87E]"
+                >
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+
+              <div className="absolute bottom-2.5 left-2.5">
+                <span className="rounded-md bg-white/95 backdrop-blur-md px-2 py-0.5 text-[10px] font-semibold text-[#3D2C22] shadow-xs">
+                  {activeTech.badge}
+                </span>
+              </div>
+            </div>
+
+            {/* Conteúdo Explicativo e Benefícios Lado a Lado */}
+            <div className="mt-3.5 space-y-2.5">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <h3 className="font-serif text-lg font-normal text-[#1E1B18] leading-tight">
+                    {activeTech.title}
+                  </h3>
+                  <p className="text-xs text-[#5C554C] mt-1 leading-relaxed">
+                    {activeTech.shortDesc}
+                  </p>
+                </div>
+              </div>
+
+              {/* Benefícios em Grade de 2 Colunas */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-2 border-t border-[#F0EAE0]">
+                {activeTech.benefits.map((b) => (
+                  <div key={b} className="flex items-start gap-1.5 text-[11px] text-[#423930]">
+                    <span className="mt-0.5 flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-[#8C6239] text-white">
+                      <Check className="h-2 w-2 stroke-[3]" />
+                    </span>
+                    <span className="leading-tight">{b}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Ação do Procedimento */}
+              <div className="pt-2 flex items-center justify-between gap-2">
+                <button
+                  type="button"
+                  onClick={() => setProcedureModalItem(activeTech)}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#8C6239] hover:text-[#5F3E1E] py-1 cursor-pointer"
+                >
+                  <span>Entenda o procedimento em 3 etapas</span>
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* =========================================================================
+            LAYOUT DESKTOP (hidden lg:block):
+            Preservado integralmente conforme a versão restaurada para telas grandes.
+           ========================================================================= */}
         <div
-          className={`mt-8 sm:mt-10 rounded-[24px] sm:rounded-[32px] border border-[#EBE3D7] bg-white p-5 sm:p-7 lg:p-8 shadow-[0_4px_30px_rgba(72,51,35,0.04)] transition-all duration-700 delay-100 ${
+          className={`hidden lg:block mt-8 sm:mt-10 rounded-[24px] sm:rounded-[32px] border border-[#EBE3D7] bg-white p-5 sm:p-7 lg:p-8 shadow-[0_4px_30px_rgba(72,51,35,0.04)] transition-all duration-700 delay-100 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
-            {/* Coluna da Esquerda: Imagem preenche a altura total da grade de forma proporcional */}
+            {/* Coluna da Esquerda: Imagem preenche a altura total */}
             <div className="lg:col-span-7 flex flex-col min-h-[360px] sm:min-h-[420px] lg:min-h-full">
               <div className="relative h-full w-full min-h-[340px] sm:min-h-[400px] overflow-hidden rounded-2xl sm:rounded-3xl bg-[#EBE3D7] shadow-inner select-none flex-1">
-                {/* Imagens das Tecnologias com Crossfade Suave */}
                 {TECH_ITEMS.map((item, index) => {
                   const isCurrent = activeTechIndex === index;
                   return (
@@ -282,7 +390,7 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
               </div>
             </div>
 
-            {/* Coluna da Direita: Acordeão com Tipografia Mais Legível e Espaçamento Otimizado */}
+            {/* Coluna da Direita: Acordeão Desktop */}
             <div className="lg:col-span-5 flex flex-col justify-between">
               <div>
                 <h3 className="font-sans font-bold text-2xl sm:text-[25px] text-[#221B16] tracking-tight mb-4">
@@ -304,7 +412,6 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
                             : "border-[#EBE3D7] bg-white hover:border-[#D5C4B0] hover:bg-[#FAF7F2]"
                         }`}
                       >
-                        {/* Linha Principal do Item */}
                         <div className="p-4 sm:p-4.5 flex items-center justify-between gap-3.5">
                           <div
                             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-colors ${
@@ -366,7 +473,6 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
                           </button>
                         </div>
 
-                        {/* Painel Expansível de Detalhes com Tipografia Refinada */}
                         <div
                           className={`grid transition-all duration-300 ease-in-out ${
                             isExpanded
@@ -410,57 +516,57 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
           </div>
         </div>
 
-        {/* Faixa Inferior de 3 Benefícios Tecnológicos + Botão CTA */}
+        {/* Faixa Inferior de 3 Benefícios Tecnológicos + Botão CTA (Disposição 3 Colunas no Tablet e Desktop) */}
         <div
-          className={`mt-5 sm:mt-6 rounded-[22px] sm:rounded-[26px] border border-[#EBE3D7] bg-white p-5 sm:p-6 shadow-[0_3px_20px_rgba(72,51,35,0.03)] flex flex-col lg:flex-row lg:items-center justify-between gap-5 transition-all duration-700 delay-200 ${
+          className={`mt-4 sm:mt-6 rounded-[20px] sm:rounded-[26px] border border-[#EBE3D7] bg-white p-4 sm:p-6 shadow-[0_3px_20px_rgba(72,51,35,0.03)] flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-5 transition-all duration-700 delay-200 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-8 flex-1">
-            <div className="flex items-center gap-3.5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F6EFE6] text-[#8C6239]">
-                <Zap className="h-5 w-5" />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 flex-1">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full bg-[#F6EFE6] text-[#8C6239]">
+                <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-[#221B16]">Diagnóstico rápido</h4>
-                <p className="text-xs text-[#6B6156] mt-0.5 leading-snug">
-                  Mais agilidade e precisão em cada etapa.
+                <h4 className="text-xs sm:text-sm font-semibold text-[#221B16]">Diagnóstico rápido</h4>
+                <p className="text-[11px] sm:text-xs text-[#6B6156] mt-0.5 leading-snug">
+                  Mais agilidade e precisão.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3.5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F6EFE6] text-[#8C6239]">
-                <Eye className="h-5 w-5" />
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full bg-[#F6EFE6] text-[#8C6239]">
+                <Eye className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-[#221B16]">Visualização em tempo real</h4>
-                <p className="text-xs text-[#6B6156] mt-0.5 leading-snug">
-                  Você acompanha seu tratamento de forma interativa.
+                <h4 className="text-xs sm:text-sm font-semibold text-[#221B16]">Visualização em tempo real</h4>
+                <p className="text-[11px] sm:text-xs text-[#6B6156] mt-0.5 leading-snug">
+                  Acompanhamento 3D interativo.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3.5">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F6EFE6] text-[#8C6239]">
-                <Users className="h-5 w-5" />
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full bg-[#F6EFE6] text-[#8C6239]">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
               <div>
-                <h4 className="text-sm font-semibold text-[#221B16]">
-                  Planejamento individualizado
+                <h4 className="text-xs sm:text-sm font-semibold text-[#221B16]">
+                  Planejamento exclusivo
                 </h4>
-                <p className="text-xs text-[#6B6156] mt-0.5 leading-snug">
-                  Resultados mais naturais, previsíveis e duradouros.
+                <p className="text-[11px] sm:text-xs text-[#6B6156] mt-0.5 leading-snug">
+                  Resultados naturais e duradouros.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="shrink-0 pt-4 lg:pt-0 border-t lg:border-t-0 border-[#EFE8DC] flex justify-end">
+          <div className="shrink-0 pt-3 sm:pt-4 lg:pt-0 border-t lg:border-t-0 border-[#EFE8DC] flex justify-end">
             <button
               type="button"
               onClick={() => onOpenAppointment("Avaliação com Scanner 3D")}
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#3B2920] hover:bg-[#281B14] px-6 py-3.5 text-xs sm:text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 cursor-pointer whitespace-nowrap w-full sm:w-auto"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#3B2920] hover:bg-[#281B14] px-5 py-3 sm:px-6 sm:py-3.5 text-xs sm:text-sm font-medium text-white shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 cursor-pointer whitespace-nowrap w-full sm:w-auto"
             >
               <span>Agendar avaliação</span>
               <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -494,36 +600,36 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
                 </div>
               </div>
 
-              <div className="p-6 sm:p-7 space-y-5">
+              <div className="p-5 sm:p-7 space-y-4 sm:space-y-5">
                 <DialogDescription className="text-xs sm:text-sm text-[#5C5348] leading-relaxed">
                   {procedureModalItem.longDesc}
                 </DialogDescription>
 
-                <div className="space-y-3 pt-2">
+                <div className="space-y-2.5 pt-2">
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-[#8C6239]">
                     Como funciona na prática:
                   </h4>
-                  <div className="space-y-2.5">
+                  <div className="space-y-2 sm:space-y-2.5">
                     {procedureModalItem.steps.map((st, i) => (
                       <div
                         key={st.title}
-                        className="flex items-start gap-3 rounded-xl bg-white p-3 border border-[#EBE3D7]"
+                        className="flex items-start gap-2.5 sm:gap-3 rounded-xl bg-white p-2.5 sm:p-3 border border-[#EBE3D7]"
                       >
-                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F6EFE6] text-xs font-semibold text-[#8C6239]">
+                        <span className="flex h-5 w-5 sm:h-6 sm:w-6 shrink-0 items-center justify-center rounded-full bg-[#F6EFE6] text-[11px] sm:text-xs font-semibold text-[#8C6239]">
                           {i + 1}
                         </span>
                         <div>
                           <strong className="text-xs sm:text-sm font-semibold text-[#221B16] block">
                             {st.title}
                           </strong>
-                          <span className="text-xs text-[#6B6156] leading-relaxed">{st.desc}</span>
+                          <span className="text-[11px] sm:text-xs text-[#6B6156] leading-relaxed">{st.desc}</span>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="pt-3 flex flex-col sm:flex-row gap-3">
+                <div className="pt-2 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
                   <button
                     type="button"
                     onClick={() => {
@@ -531,7 +637,7 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
                       setProcedureModalItem(null);
                       onOpenAppointment(`Consulta com ${t}`);
                     }}
-                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#3B2920] hover:bg-[#281B14] py-3.5 px-6 text-xs sm:text-sm font-medium text-white shadow-sm transition-all active:scale-95 cursor-pointer"
+                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#3B2920] hover:bg-[#281B14] py-3 sm:py-3.5 px-5 sm:px-6 text-xs sm:text-sm font-medium text-white shadow-sm transition-all active:scale-95 cursor-pointer"
                   >
                     <span>Agendar com esta tecnologia</span>
                     <ArrowUpRight className="h-4 w-4" />
@@ -540,7 +646,7 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
                   <button
                     type="button"
                     onClick={() => setProcedureModalItem(null)}
-                    className="rounded-xl border border-[#DCD3C7] bg-white px-5 py-3.5 text-xs sm:text-sm font-medium text-[#4A3D31] hover:bg-[#F4EFE8] transition-colors cursor-pointer"
+                    className="rounded-xl border border-[#DCD3C7] bg-white px-5 py-3 text-xs sm:text-sm font-medium text-[#4A3D31] hover:bg-[#F4EFE8] transition-colors cursor-pointer"
                   >
                     Fechar
                   </button>

@@ -73,23 +73,27 @@ export function TestimonialsSection({
   isVisible = true,
 }: TestimonialsSectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [mobileIndex, setMobileIndex] = useState(0);
 
   const maxDesktopIndex = Math.max(0, TESTIMONIALS.length - 3);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : maxDesktopIndex));
+    setMobileIndex((prev) => (prev > 0 ? prev - 1 : TESTIMONIALS.length - 1));
   };
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev < maxDesktopIndex ? prev + 1 : 0));
+    setMobileIndex((prev) => (prev < TESTIMONIALS.length - 1 ? prev + 1 : 0));
   };
 
   const visibleTestimonials = TESTIMONIALS.slice(currentIndex, currentIndex + 3);
+  const activeMobileTestimonial = TESTIMONIALS[mobileIndex] ?? TESTIMONIALS[0]!;
 
   return (
     <section
       id="depoimentos"
-      className="relative py-16 sm:py-20 lg:py-24 bg-[#FAF8F5]"
+      className="relative py-12 sm:py-18 lg:py-24 bg-[#FAF8F5]"
       aria-label="Avaliações e Depoimentos de Pacientes"
     >
       <div className="site-container">
@@ -107,28 +111,28 @@ export function TestimonialsSection({
               </p>
             </div>
 
-            <h2 className="mt-2 font-serif text-3xl sm:text-4xl lg:text-[44px] leading-[1.12] font-normal tracking-tight text-[#1E1B18]">
+            <h2 className="mt-2 font-serif text-[26px] sm:text-4xl lg:text-[44px] leading-[1.12] font-normal tracking-tight text-[#1E1B18]">
               Depoimentos que inspiram confiança.
             </h2>
-            <p className="mt-2.5 text-sm sm:text-base text-[#5C554C] leading-relaxed">
+            <p className="mt-2 text-xs sm:text-base text-[#5C554C] leading-relaxed">
               Mais de 180 avaliações 5 estrelas no Google de pacientes que confiaram o cuidado e a
               estética do seu sorriso à Lumière.
             </p>
           </div>
 
-          <div className="shrink-0 flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-1.5 rounded-xl border border-[#E0D5C7] bg-white px-3.5 py-2 text-xs font-medium text-[#483323] shadow-2xs">
-              <Star className="h-3.5 w-3.5 fill-current text-[#C5A059]" />
+          <div className="shrink-0 flex items-center justify-between sm:justify-start gap-3">
+            <div className="flex items-center gap-1.5 rounded-xl border border-[#E0D5C7] bg-white px-3 py-1.5 text-xs font-medium text-[#483323] shadow-2xs">
+              <Star className="h-3.5 w-3.5 fill-current text-[#966D38]" />
               <span className="font-semibold">4.9 / 5.0</span>
-              <span className="text-[#8C8377]">• Google Reviews</span>
+              <span className="text-[#8C8377] hidden xs:inline">• Google</span>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               <button
                 type="button"
                 onClick={handlePrev}
                 aria-label="Depoimento anterior"
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#DCD3C7] bg-white text-[#4A3D31] hover:bg-[#483323] hover:border-[#483323] hover:text-white transition-all cursor-pointer shadow-2xs"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#DCD3C7] bg-white text-[#4A3D31] hover:bg-[#483323] hover:border-[#483323] hover:text-white transition-all cursor-pointer shadow-2xs active:scale-95"
               >
                 <ArrowLeft className="h-4 w-4" />
               </button>
@@ -136,7 +140,7 @@ export function TestimonialsSection({
                 type="button"
                 onClick={handleNext}
                 aria-label="Próximo depoimento"
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#DCD3C7] bg-white text-[#4A3D31] hover:bg-[#483323] hover:border-[#483323] hover:text-white transition-all cursor-pointer shadow-2xs"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#DCD3C7] bg-white text-[#4A3D31] hover:bg-[#483323] hover:border-[#483323] hover:text-white transition-all cursor-pointer shadow-2xs active:scale-95"
               >
                 <ArrowRight className="h-4 w-4" />
               </button>
@@ -144,9 +148,77 @@ export function TestimonialsSection({
           </div>
         </div>
 
-        {/* Grade de Cards de Avaliação */}
+        {/* =========================================================================
+            CAROUSEL NO MOBILE (sm:hidden):
+            Em vez de empilhar 4 depoimentos longos verticalmente, mostra um card rico
+            com transição suave e indicadores em pontos (bullets)
+           ========================================================================= */}
+        <div className="sm:hidden mt-5">
+          <article className="group flex flex-col justify-between rounded-2xl border border-[#E8DFD3] bg-white p-5 shadow-[0_4px_20px_rgba(72,51,35,0.05)]">
+            <div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1 text-[#966D38]">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="h-3.5 w-3.5 fill-current" />
+                  ))}
+                </div>
+                <span className="text-[9.5px] font-semibold text-[#8C6A3C] uppercase tracking-wider bg-[#F4EFE8] px-2 py-0.5 rounded-md">
+                  {activeMobileTestimonial.treatment}
+                </span>
+              </div>
+
+              <h3 className="mt-3 font-serif text-[17px] font-normal leading-snug text-[#1E1B18]">
+                “{activeMobileTestimonial.quote}”
+              </h3>
+
+              <p className="mt-2 text-xs text-[#5C554C] leading-relaxed">
+                {activeMobileTestimonial.fullReview}
+              </p>
+            </div>
+
+            <div className="mt-4 pt-3.5 border-t border-[#F2ECE3] flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <img
+                  src={activeMobileTestimonial.photo}
+                  alt={activeMobileTestimonial.name}
+                  className="h-9 w-9 rounded-full object-cover ring-2 ring-[#E0D5C7]"
+                />
+                <div>
+                  <h4 className="text-xs font-semibold text-[#1E1B18] leading-tight">
+                    {activeMobileTestimonial.name}
+                  </h4>
+                  <span className="text-[9.5px] text-[#227A38] font-medium flex items-center gap-1 mt-0.5">
+                    <CheckCircle2 className="h-2.5 w-2.5" /> Paciente Verificado
+                  </span>
+                </div>
+              </div>
+
+              <span className="text-[10px] text-[#8C8377]">{activeMobileTestimonial.timeAgo}</span>
+            </div>
+          </article>
+
+          {/* Indicadores em Pontos (Bullets) */}
+          <div className="mt-3.5 flex items-center justify-center gap-1.5">
+            {TESTIMONIALS.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setMobileIndex(idx)}
+                aria-label={`Ver depoimento ${idx + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  mobileIndex === idx ? "w-6 bg-[#8C6239]" : "w-2 bg-[#DCD3C7]"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* =========================================================================
+            GRADE DESKTOP & TABLET (hidden sm:grid):
+            Exatamente preservada da versão restaurada
+           ========================================================================= */}
         <div
-          className={`mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 transition-all duration-700 delay-100 ${
+          className={`hidden sm:grid mt-8 sm:mt-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 transition-all duration-700 delay-100 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
@@ -156,9 +228,8 @@ export function TestimonialsSection({
               className="group flex flex-col justify-between rounded-2xl border border-[#E8DFD3] bg-white p-6 sm:p-7 shadow-[0_6px_24px_rgba(72,51,35,0.04)] transition-all duration-400 hover:-translate-y-1.5 hover:border-[#C5A059] hover:shadow-[0_20px_44px_rgba(72,51,35,0.09)]"
             >
               <div>
-                {/* 5 Estrelas e Badge de Tratamento */}
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-[#C5A059]">
+                  <div className="flex items-center gap-1 text-[#966D38]">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="h-4 w-4 fill-current" />
                     ))}
@@ -168,7 +239,6 @@ export function TestimonialsSection({
                   </span>
                 </div>
 
-                {/* Citação Direta */}
                 <h3 className="mt-4 font-serif text-lg sm:text-xl font-normal leading-snug text-[#1E1B18] group-hover:text-[#483323] transition-colors">
                   “{item.quote}”
                 </h3>
@@ -178,7 +248,6 @@ export function TestimonialsSection({
                 </p>
               </div>
 
-              {/* Informações do Paciente */}
               <div className="mt-6 pt-4 border-t border-[#F2ECE3] flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <img
@@ -204,11 +273,11 @@ export function TestimonialsSection({
 
         {/* Faixa Inferior de Conversão */}
         <div
-          className={`mt-8 sm:mt-10 rounded-2xl border border-[#E5DAD0] bg-[#F4EFE8] px-6 py-4.5 sm:px-7 sm:py-5 transition-all duration-700 delay-200 ${
+          className={`mt-6 sm:mt-10 rounded-2xl border border-[#E5DAD0] bg-[#F4EFE8] px-5 py-4 sm:px-7 sm:py-5 transition-all duration-700 delay-200 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
             <div>
               <h4 className="font-serif text-base sm:text-lg font-normal text-[#1E1B18] leading-snug">
                 Pronto para viver essa transformação no seu sorriso?
@@ -222,7 +291,7 @@ export function TestimonialsSection({
               <button
                 type="button"
                 onClick={() => onOpenAppointment("Agendamento pós-Avaliações")}
-                className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#483323] hover:bg-[#342417] px-6 py-3 text-xs sm:text-sm font-medium text-white shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap"
+                className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#483323] hover:bg-[#342417] px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-medium text-white shadow-2xs transition-all active:scale-95 cursor-pointer whitespace-nowrap w-full sm:w-auto"
               >
                 <span>Agendar avaliação agora</span>
                 <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

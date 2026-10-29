@@ -55,7 +55,7 @@ export function FaqSection({ isVisible = true }: FaqSectionProps) {
   return (
     <section
       id="faq"
-      className="relative py-14 sm:py-18 lg:py-22 bg-[#FAF7F2] transition-colors"
+      className="relative py-12 sm:py-16 lg:py-22 bg-[#FAF7F2] transition-colors"
       aria-label="Perguntas Frequentes sobre Tratamentos Odontológicos"
     >
       <div className="site-container">
@@ -72,24 +72,54 @@ export function FaqSection({ isVisible = true }: FaqSectionProps) {
             </span>
           </div>
 
-          <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl lg:text-[44px] leading-[1.14] font-normal tracking-tight text-[#221B16]">
+          <h2 className="mt-2 font-serif text-[26px] sm:text-4xl lg:text-[44px] leading-[1.14] font-normal tracking-tight text-[#221B16]">
             Dúvidas frequentes.
           </h2>
 
-          <p className="mt-2.5 text-sm sm:text-base text-[#665D53] leading-relaxed max-w-[640px]">
+          <p className="mt-2 text-xs sm:text-base text-[#665D53] leading-relaxed max-w-[640px]">
             Respostas claras e transparentes para orientar você a dar o próximo passo rumo ao seu
             novo sorriso com total tranquilidade e segurança.
           </p>
         </div>
 
+        {/* =========================================================================
+            BARRA DE ATENDIMENTO CONCIERGE NO MOBILE (lg:hidden):
+            Em vez de um card gigante empilhado, uma barra compacta com link direto
+           ========================================================================= */}
+        <div className="lg:hidden mt-4 p-3.5 rounded-xl bg-white border border-[#E8DFC8] shadow-2xs flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#F6EFE6] text-[#8C6239]">
+              <MessageSquare className="h-4.5 w-4.5" />
+            </div>
+            <div className="min-w-0">
+              <span className="text-[12.5px] font-semibold text-[#221B16] block truncate">
+                Dúvida específica?
+              </span>
+              <span className="text-[10.5px] text-[#7A7065] block truncate">
+                Fale direto no WhatsApp
+              </span>
+            </div>
+          </div>
+
+          <a
+            href={getWhatsAppUrl("Olá! Gostaria de esclarecer uma dúvida sobre os tratamentos da Lumière.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-[#3B2920] px-3 py-2 text-xs font-medium text-white shadow-xs active:scale-95"
+          >
+            <span>WhatsApp</span>
+            <ArrowUpRight className="h-3 w-3" />
+          </a>
+        </div>
+
         {/* Grade Reestruturada: Coluna Esquerda Integrada (Concierge) + Acordeão à Direita */}
         <div
-          className={`mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-8 items-start transition-all duration-700 delay-100 ${
+          className={`mt-5 sm:mt-8 lg:mt-10 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-start transition-all duration-700 delay-100 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
-          {/* Coluna da Esquerda: Card Concierge VIP Integrado */}
-          <div className="lg:col-span-5 flex flex-col gap-4">
+          {/* Coluna da Esquerda (Desktop): Card Concierge VIP Integrado */}
+          <div className="hidden lg:flex lg:col-span-5 flex-col gap-4">
             <div className="rounded-[24px] border border-[#E8DFD3] bg-white p-6 sm:p-7 shadow-[0_4px_24px_rgba(72,51,35,0.04)]">
               <div className="flex items-center gap-3">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F6EFE6] text-[#8C6239] shadow-2xs">
@@ -141,42 +171,43 @@ export function FaqSection({ isVisible = true }: FaqSectionProps) {
             </div>
           </div>
 
-          {/* Coluna da Direita: Acordeão com Espaçamento e Tipografia Otimizados */}
-          <div className="lg:col-span-7 flex flex-col gap-3">
+          {/* Coluna da Direita: Acordeão de Perguntas e Respostas */}
+          <div className="lg:col-span-7 flex flex-col gap-2.5 sm:gap-3 w-full">
             {FAQS.map((faq) => {
               const isOpen = openId === faq.id;
+
               return (
                 <div
                   key={faq.id}
-                  className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                  className={`rounded-xl sm:rounded-2xl border transition-all duration-300 ease-out overflow-hidden ${
                     isOpen
-                      ? "border-[#B89264] bg-[#FAF5EF] shadow-sm ring-1 ring-[#B89264]/30"
-                      : "border-[#EBE3D7] bg-white hover:border-[#D5C4B0] hover:bg-[#FAF7F2]"
+                      ? "border-[#B89264] bg-white shadow-xs"
+                      : "border-[#EBE3D7] bg-white hover:border-[#D5C4B0]"
                   }`}
                 >
                   <button
                     type="button"
                     onClick={() => toggleFaq(faq.id)}
                     aria-expanded={isOpen}
-                    className="w-full flex items-center justify-between p-4.5 sm:p-5 text-left cursor-pointer focus-visible:outline-none"
+                    className="flex w-full items-center justify-between gap-3 p-3.5 sm:p-5 text-left cursor-pointer min-h-[48px]"
                   >
                     <span
-                      className={`font-serif text-base sm:text-[18px] leading-snug pr-4 transition-colors ${
-                        isOpen ? "text-[#221B16] font-medium" : "text-[#2A231E]"
+                      className={`font-serif text-sm sm:text-base font-normal leading-snug transition-colors ${
+                        isOpen ? "text-[#8C6239]" : "text-[#221B16]"
                       }`}
                     >
                       {faq.q}
                     </span>
 
-                    <div
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                    <span
+                      className={`flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
                         isOpen
-                          ? "bg-[#3B2920] text-white rotate-180 shadow-2xs"
-                          : "border border-[#DCD3C7] text-[#554A40] bg-white"
+                          ? "bg-[#8C6239] text-white rotate-180"
+                          : "border border-[#DCD3C7] text-[#554A40]"
                       }`}
                     >
-                      {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-                    </div>
+                      {isOpen ? <Minus className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+                    </span>
                   </button>
 
                   <div
@@ -187,8 +218,8 @@ export function FaqSection({ isVisible = true }: FaqSectionProps) {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <div className="px-5 pb-5 pt-1 text-xs sm:text-[14px] text-[#554D43] leading-relaxed border-t border-[#EFE8DE]">
-                        {faq.a}
+                      <div className="px-3.5 pb-3.5 sm:px-5 sm:pb-5 pt-0 text-xs sm:text-sm text-[#5C5348] leading-relaxed border-t border-[#F2ECE3]/80">
+                        <p className="mt-2.5">{faq.a}</p>
                       </div>
                     </div>
                   </div>

@@ -108,13 +108,13 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
   return (
     <section
       id="resultados"
-      className="relative py-14 sm:py-18 lg:py-22 bg-[#FAF7F2] transition-colors"
+      className="relative py-12 sm:py-16 lg:py-22 bg-[#FAF7F2] transition-colors"
       aria-label="Resultados reais e transformações de sorrisos"
     >
       <div className="site-container">
         {/* Cabeçalho Superior */}
         <div
-          className={`flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between transition-all duration-700 ease-out ${
+          className={`flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between transition-all duration-700 ease-out ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
@@ -126,11 +126,11 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
               </span>
             </div>
 
-            <h2 className="mt-2.5 font-serif text-3xl sm:text-4xl lg:text-[44px] leading-[1.14] font-normal tracking-tight text-[#221B16]">
+            <h2 className="mt-2 font-serif text-[26px] sm:text-4xl lg:text-[44px] leading-[1.14] font-normal tracking-tight text-[#221B16]">
               O sorriso que transforma começa aqui.
             </h2>
 
-            <p className="mt-2.5 text-sm sm:text-base text-[#665D53] leading-relaxed max-w-[700px]">
+            <p className="mt-2 text-xs sm:text-base text-[#665D53] leading-relaxed max-w-[700px]">
               Explore as transformações e descubra o cuidado por trás de cada resultado.
             </p>
           </div>
@@ -147,14 +147,48 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
           </div>
         </div>
 
-        {/* Grade: Comparador à Esquerda e Coluna Direita Redesenhada com Altura Perfeitamente Balanceada */}
+        {/* =========================================================================
+            SELETOR HORIZONTAL DE CASOS NO MOBILE (lg:hidden):
+            Substitui 3 cards gigantes empilhados verticalmente por uma barra lado a lado compacta
+           ========================================================================= */}
+        <div className="lg:hidden mt-5">
+          <div className="grid grid-cols-3 gap-2">
+            {CLINICAL_CASES.map((item, idx) => {
+              const isActive = activeCaseIndex === idx;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => handleSelectCase(idx)}
+                  className={`flex flex-col items-center p-2 rounded-xl border text-center transition-all ${
+                    isActive
+                      ? "border-[#8C6239] bg-[#FAF5EF] shadow-xs ring-1 ring-[#8C6239]/40"
+                      : "border-[#E8DFC8] bg-white text-[#5C5044]"
+                  }`}
+                >
+                  <div className="relative h-10 w-10 overflow-hidden rounded-lg bg-[#EBE3D7] mb-1">
+                    <img src={item.thumb} alt={item.title} className="h-full w-full object-cover" />
+                  </div>
+                  <span className="text-[9.5px] font-semibold text-[#8C6239] uppercase tracking-wider block">
+                    {item.caseNumber}
+                  </span>
+                  <span className="text-[11px] font-medium text-[#1E1B18] leading-tight truncate w-full block">
+                    {item.title.split(" ")[0]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Grade: Comparador à Esquerda e Coluna Direita */}
         <div
-          className={`mt-8 sm:mt-10 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch transition-all duration-700 delay-100 ${
+          className={`mt-4 sm:mt-8 lg:mt-10 grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-stretch transition-all duration-700 delay-100 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
           }`}
         >
           {/* Coluna da Esquerda: Comparador + Barra Dinâmica */}
-          <div className="lg:col-span-7 flex flex-col justify-between overflow-hidden rounded-[24px] sm:rounded-[28px] border border-[#EBE3D7] bg-white shadow-[0_4px_30px_rgba(72,51,35,0.04)]">
+          <div className="lg:col-span-7 flex flex-col justify-between overflow-hidden rounded-[20px] sm:rounded-[28px] border border-[#EBE3D7] bg-white shadow-[0_4px_30px_rgba(72,51,35,0.04)]">
             <div
               className={`relative w-full overflow-hidden transition-opacity duration-350 ease-in-out ${
                 isTransitioning ? "opacity-75" : "opacity-100"
@@ -173,9 +207,9 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
             </div>
 
             {/* Barra Dinâmica Inferior */}
-            <div className="p-5 sm:p-6 lg:p-6.5 bg-white border-t border-[#F0EAE0]">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="space-y-2 shrink-0">
+            <div className="p-4 sm:p-6 lg:p-6.5 bg-white border-t border-[#F0EAE0]">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+                <div className="space-y-1.5 sm:space-y-2 shrink-0">
                   <div className="flex items-center gap-2 text-xs sm:text-[13px] text-[#665D53]">
                     <span className="font-mono font-semibold tabular-nums text-[#221B16]">
                       0{activeCaseIndex + 1} / 0{CLINICAL_CASES.length}
@@ -205,10 +239,10 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
                 <div className="h-10 w-px bg-[#EFE8DE] hidden sm:block mx-1" />
 
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-serif text-base sm:text-[17px] font-normal text-[#221B16] leading-snug">
+                  <h4 className="font-serif text-sm sm:text-[17px] font-normal text-[#221B16] leading-snug">
                     {activeCase.highlightTitle}
                   </h4>
-                  <p className="mt-1 text-xs sm:text-[13px] text-[#665D53] leading-relaxed">
+                  <p className="mt-0.5 text-xs sm:text-[13px] text-[#665D53] leading-relaxed">
                     {activeCase.highlightDesc}
                   </p>
                 </div>
@@ -216,8 +250,8 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
             </div>
           </div>
 
-          {/* Coluna da Direita: Redesenhada e Elevada, sem Espaço Vazio Excessivo */}
-          <div className="lg:col-span-5 flex flex-col justify-between gap-3.5 sm:gap-4">
+          {/* Coluna da Direita (Desktop - 3 Cards Ricos): Exatamente Preservada */}
+          <div className="hidden lg:flex lg:col-span-5 flex-col justify-between gap-3.5 sm:gap-4">
             <div>
               <div className="flex items-center justify-between mb-3">
                 <h3 className="font-serif text-2xl sm:text-[25px] font-normal text-[#221B16] tracking-tight">
@@ -228,7 +262,7 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
                 </span>
               </div>
 
-              {/* 3 Cards de Casos Clínicos com Design Elevado e Proporções Sofisticadas */}
+              {/* 3 Cards de Casos Clínicos Desktop */}
               <div className="flex flex-col gap-3">
                 {CLINICAL_CASES.map((item, idx) => {
                   const isActive = activeCaseIndex === idx;
@@ -244,7 +278,6 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
                       }`}
                     >
                       <div className="flex items-center gap-3.5 min-w-0">
-                        {/* Thumbnail Proporcional do Paciente */}
                         <div className="relative h-18 w-18 sm:h-20 sm:w-20 shrink-0 overflow-hidden rounded-xl bg-[#EBE3D7] shadow-inner">
                           <img
                             src={item.thumb}
@@ -257,7 +290,6 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
                           )}
                         </div>
 
-                        {/* Conteúdo com Tipografia Maior e Melhor Hierarquia */}
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
                             <span
@@ -293,7 +325,6 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
                         </div>
                       </div>
 
-                      {/* Botão Circular com Seta */}
                       <div
                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-all duration-300 ml-2.5 ${
                           isActive
@@ -309,7 +340,7 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
               </div>
             </div>
 
-            {/* Bloco Inferior de Agendamento CTA: Ajustado para Eliminar o Espaço Vazio */}
+            {/* Bloco Inferior de Agendamento Desktop */}
             <div className="rounded-2xl border border-[#E8DFD3] bg-[#F5EDE3] p-4 sm:p-4.5 flex items-center justify-between gap-3.5 shadow-2xs mt-1">
               <div className="flex items-center gap-3.5 min-w-0">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white border border-[#E2D8CC] text-[#3B2920] shadow-2xs">
@@ -336,6 +367,24 @@ export function ResultsSection({ onOpenAppointment, isVisible = true }: ResultsS
                 </button>
               </div>
             </div>
+          </div>
+
+          {/* Bloco CTA Mobile Compacto */}
+          <div className="lg:hidden mt-1 flex items-center justify-between p-3.5 rounded-xl bg-[#F5EDE3] border border-[#E8DFC8]">
+            <div className="flex items-center gap-2.5">
+              <Calendar className="h-4 w-4 text-[#8C6239] shrink-0" />
+              <span className="text-xs font-serif font-medium text-[#221B16]">
+                Planeje sua transformação
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => onOpenAppointment("Transformação de Sorriso Mobile")}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#8C6239] hover:underline"
+            >
+              <span>Avaliação</span>
+              <ArrowUpRight className="h-3 w-3" />
+            </button>
           </div>
         </div>
       </div>
