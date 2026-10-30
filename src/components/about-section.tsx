@@ -63,7 +63,9 @@ export function AboutSection({ onOpenAppointment, isVisible = true }: AboutSecti
                 <Award className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </div>
               <div className="leading-tight">
-                <span className="block text-[11px] sm:text-xs font-semibold text-[#1E1B18]">Padrão Ouro</span>
+                <span className="block text-[11px] sm:text-xs font-semibold text-[#1E1B18]">
+                  Padrão Ouro
+                </span>
                 <span className="text-[9.5px] sm:text-[10px] text-[#7A7065]">Membros SBOE</span>
               </div>
             </div>

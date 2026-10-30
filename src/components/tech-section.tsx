@@ -256,7 +256,9 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
                 >
                   <ChevronLeft className="h-3.5 w-3.5" />
                 </button>
-                <span className="text-[10px] font-mono tabular-nums">0{activeTechIndex + 1}/03</span>
+                <span className="text-[10px] font-mono tabular-nums">
+                  0{activeTechIndex + 1}/03
+                </span>
                 <button
                   type="button"
                   onClick={() => handleNext()}
@@ -528,7 +530,9 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
                 <Zap className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-sm font-semibold text-[#221B16]">Diagnóstico rápido</h4>
+                <h4 className="text-xs sm:text-sm font-semibold text-[#221B16]">
+                  Diagnóstico rápido
+                </h4>
                 <p className="text-[11px] sm:text-xs text-[#6B6156] mt-0.5 leading-snug">
                   Mais agilidade e precisão.
                 </p>
@@ -540,7 +544,9 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
                 <Eye className="h-4 w-4 sm:h-5 sm:w-5" />
               </div>
               <div>
-                <h4 className="text-xs sm:text-sm font-semibold text-[#221B16]">Visualização em tempo real</h4>
+                <h4 className="text-xs sm:text-sm font-semibold text-[#221B16]">
+                  Visualização em tempo real
+                </h4>
                 <p className="text-[11px] sm:text-xs text-[#6B6156] mt-0.5 leading-snug">
                   Acompanhamento 3D interativo.
                 </p>
@@ -622,7 +628,9 @@ export function TechSection({ onOpenAppointment, isVisible = true }: TechSection
                           <strong className="text-xs sm:text-sm font-semibold text-[#221B16] block">
                             {st.title}
                           </strong>
-                          <span className="text-[11px] sm:text-xs text-[#6B6156] leading-relaxed">{st.desc}</span>
+                          <span className="text-[11px] sm:text-xs text-[#6B6156] leading-relaxed">
+                            {st.desc}
+                          </span>
                         </div>
                       </div>
                     ))}

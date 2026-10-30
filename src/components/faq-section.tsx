@@ -102,7 +102,9 @@ export function FaqSection({ isVisible = true }: FaqSectionProps) {
           </div>
 
           <a
-            href={getWhatsAppUrl("Olá! Gostaria de esclarecer uma dúvida sobre os tratamentos da Lumière.")}
+            href={getWhatsAppUrl(
+              "Olá! Gostaria de esclarecer uma dúvida sobre os tratamentos da Lumière.",
+            )}
             target="_blank"
             rel="noopener noreferrer"
             className="shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-[#3B2920] px-3 py-2 text-xs font-medium text-white shadow-xs active:scale-95"
@@ -206,7 +208,11 @@ export function FaqSection({ isVisible = true }: FaqSectionProps) {
                           : "border border-[#DCD3C7] text-[#554A40]"
                       }`}
                     >
-                      {isOpen ? <Minus className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+                      {isOpen ? (
+                        <Minus className="h-3.5 w-3.5" />
+                      ) : (
+                        <Plus className="h-3.5 w-3.5" />
+                      )}
                     </span>
                   </button>
 
